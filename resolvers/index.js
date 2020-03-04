@@ -16,7 +16,7 @@ const books = [
 const authors = [
   {
     name: 'J.K. Rowling',
-    books: ['Harry Potter and the Chamber of Sercrets', 'Harry Potter and the Goblet of Fire']
+    books: ['Harry Potter and the Chamber of Sercrets', 'Harry Potter and the Goblet of Fire'],
   },
   {
     name: 'Michael Crichton',
