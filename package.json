@@ -1,0 +1,27 @@
+{
+  "name": "fetch-web-backend",
+  "version": "1.0.0",
+  "description": "API for Fetch app using GraphQL and Apollo Server",
+  "main": "index.js",
+  "repository": "https://source.digital.accenture.com/scm/int/fetch-web-backend.git",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "contributors": [
+    "Toledo,Gabriel <gabriel.toledo@accenture.com>",
+    "Wada, Natsuki <natuki.wada@accenture.com>",
+    "Hankins, James <james.hankins@accenture.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "graphql": "^14.6.0",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.5"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
