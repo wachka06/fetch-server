@@ -4,23 +4,17 @@
     "password": null,
     "database": "fetch_development",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "fetch_test",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "fetch_production",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "useEnvironmentVariable": "DATABASE_URL",
+    "dialect": "postgres"
   }
 }
