@@ -26,7 +26,7 @@ const authors = [
 const resolvers = {
   // Test query to load server with
   Query: {
-    books: () => books,
+    books: () => db.Book.findAll(),
     authors: () => authors,
   },
 };

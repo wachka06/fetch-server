@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-// eslint-disable-next-line import/no-dynamic-require
 const config = require(`${__dirname}/../config/config.json`)[env];
 const db = {};
 
@@ -17,7 +16,6 @@ if (config.use_env_variable) {
 
 fs
   .readdirSync(__dirname)
-  // eslint-disable-next-line arrow-body-style
   .filter((file) => {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
