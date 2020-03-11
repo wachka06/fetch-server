@@ -31,7 +31,8 @@
     "graphql": "^14.6.0",
     "pg": "^7.18.2",
     "sequelize": "^5.21.5",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
