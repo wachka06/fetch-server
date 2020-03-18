@@ -1,18 +1,6 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Liked_Pets', {
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
-      },
+    return queryInterface.createTable('liked_pets', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -20,30 +8,36 @@ module.exports = {
         unique: true,
         type: Sequelize.UUID,
       },
-      // userId: {
-      //   allowNull: false,
-      //   type: Sequelize.UUID,
-      //   references: {
-      //     model: 'Users',
-      //     key: 'id'
-      //   },
-      //   onDelete: 'CASCADE'
-      // },
-      // petId: {
-      //   allowNull: false,
-      //   type: Sequelize.UUID,
-      //   references: {
-      //     model: 'Pets',
-      //     key: 'id'
-      //   },
-      //   onDelete: 'CASCADE'
-      // },
       likedAt: {
         type: Sequelize.DATE
-      }
+      },
+      pet_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'pets',
+          key: 'id'
+        }
+      },
+      user_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Liked_Pets');
+    return queryInterface.dropTable('liked_pets');
   }
 };

@@ -29,8 +29,17 @@ module.exports = (sequelize, DataTypes) => {
     pet_type_preference: DataTypes.ENUM(PetPreferences.TYPE),
   }, {});
   user.associate = function (models) {
-    // User.belongsToMany(models.Pets, { through: 'Liked_Pet', onDelete: 'CASCADE' });
-    // user.hasMany(models.Liked_Pet, { onDelete: 'CASCADE' })
+    user.hasMany(models.liked_pet, {
+      foreignKey: 'user_id',
+      sourceKey: 'id',
+      onDelete: 'CASCADE'
+    })
+    user.belongsToMany(models.pet, {
+      ase: 'LikedBy',
+      through: models.liked_pet,
+      foreignKey: 'user_id',
+      otherKey: 'pet_id'
+    })
   };
   return user;
 };

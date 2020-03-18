@@ -74,11 +74,21 @@ module.exports = (sequelize, DataTypes) => {
     tertiary_color: DataTypes.STRING
   }, {});
   pet.associate = function(models) {
-    // Pet.belongsToMany(models.Users, { through: 'Liked_Pet', onDelete: 'CASCADE'});
-    // Pet.hasMany(models.Liked_Pet, { onDelete: 'CASCADE' })
+    pet.hasMany(models.liked_pet, {
+      foreignKey: 'pet_id',
+      sourceKey: 'id',
+      onDelete: 'CASCADE'
+    })
     pet.belongsTo(models.shelter, {
-      foreignKey: 'shelterId', 
-      targetKey: 'id'})
+      foreignKey: 'shelter_id', 
+      targetKey: 'id'
+    })
+    pet.belongsToMany(models.user, { 
+      as: 'PetsLiked', 
+      through: models.liked_pet, 
+      foreignKey: 'pet_id',
+      otherKey: 'user_id'
+    })
   };
   return pet;
 };

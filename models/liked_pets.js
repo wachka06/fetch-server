@@ -1,26 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-  const LikedPet = sequelize.define('Liked_Pet', {
+  const likedPet = sequelize.define('liked_pet', {
     id: {
       defaultValue: sequelize.UUIDV4,
       primaryKey: true,
       type: DataTypes.UUID,
       unique: true
     },
-    // userId: {
-    //   allowNull: false,
-    //   type: DataTypes.UUID,
-    // },
-    // petId: {
-    //   allowNull: false,
-    //   type: DataTypes.UUID,
-    // },
     likedAt: {
       type: DataTypes.DATE
+    },
+    pet_id: {
+      allowNull: false,
+      type: DataTypes.UUID
+    },
+    user_id: {
+      allowNull: false,
+      type: DataTypes.UUID
     }
   }, {});
-  LikedPet.associate = function(models) {
-    // LikedPet.belongsTo(models.Pets)
-    // LikedPet.belongsTo(models.Users)
+  likedPet.associate = function(models) {
+    likedPet.belongsTo(models.pet, {
+      foreignKey: 'pet_id',
+      targetKey: 'id'})
+    likedPet.belongsTo(models.user, {
+      foreignKey: 'user_id',
+      targetKey: 'id'})
   };
-  return LikedPet;
+  return likedPet;
 };
