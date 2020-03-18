@@ -1,28 +1,17 @@
-'use strict';
+const PetPreferences = require('../sharedConstants/petPreferenceEnums')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Pets', {
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
-      },
+    return queryInterface.createTable('pets', {
       id: {
-        primaryKey: true,
-        allowNull: true,
+        allowNull: false,
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        unique: true,
-        type: Sequelize.UUID,
+        primaryKey: true,
+        type: Sequelize.DataTypes.UUID,
       },
       age: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.ENUM(PetPreferences.AGE)
       },
       coat: {
         type: Sequelize.STRING
@@ -58,7 +47,7 @@ module.exports = {
       },
       photos: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       primary_breed: {
         type: Sequelize.STRING
@@ -91,14 +80,14 @@ module.exports = {
       },
       sex: {
         allowNull: false,
-        type: Sequelize.ENUM('male', 'female', 'unknown')
+        type: Sequelize.ENUM(PetPreferences.SEX)
       },
       shots_are_current: {
         type: Sequelize.BOOLEAN
       },
       size: {
         allowNull: false,
-        type: Sequelize.ENUM('small', 'medium','large')
+        type: Sequelize.ENUM(PetPreferences.SIZE)
       },
       spayed_or_neutered: {
         type: Sequelize.BOOLEAN
@@ -107,7 +96,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       species_name: {
-        type: Sequelize.ENUM('dog', 'cat')
+        type: Sequelize.ENUM(PetPreferences.TYPE)
       },
       status: {
         allowNull: false,
@@ -116,18 +105,26 @@ module.exports = {
       tertiary_color: {
         type: Sequelize.STRING
       },
-      // shelterId: {
-      //   allowNull: false,
-      //   type: Sequelize.UUID,
-      //   references: {
-      //     model: 'Shelters',
-      //     key: 'id'
-      //   },
-      //   onDelete: 'CASCADE'
-      // }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Pets');
-  }
-};
+      shelter_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'shelters',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+        });
+      },
+      down: (queryInterface, Sequelize) => {
+        return queryInterface.dropTable('pets');
+      }
+    };

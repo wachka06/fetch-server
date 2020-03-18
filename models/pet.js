@@ -1,5 +1,7 @@
+const PetPreferences = require('../sharedConstants/petPreferenceEnums');
+
 module.exports = (sequelize, DataTypes) => {
-  const Pet = sequelize.define('Pets', {
+  const pet = sequelize.define('pet', {
     id: {
       defaultValue: sequelize.UUIDV4,
       primaryKey: true,
@@ -7,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     age: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(PetPreferences.AGE),
       allowNull: false
     },
     coat: DataTypes.STRING,
@@ -23,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     name: DataTypes.STRING,
-    photos: DataTypes.STRING,
+    photos: DataTypes.ARRAY(DataTypes.STRING),
     primary_breed: DataTypes.STRING,
     primary_color: {
       type: DataTypes.STRING,
@@ -48,28 +50,22 @@ module.exports = (sequelize, DataTypes) => {
     secondary_breed: DataTypes.STRING,
     secondary_color: DataTypes.STRING,
     sex: {
-      type: DataTypes.ENUM({
-        values: ['male', 'female', 'unknown']
-      }),
+      type: DataTypes.ENUM(PetPreferences.SEX),
       allowNull: false
     },
-    shelterId: {
+    shelter_id: {
       allowNull: false,
       type: DataTypes.UUID
     },
     shots_are_current: DataTypes.BOOLEAN,
     size: {
       allowNull: false,
-      type: DataTypes.ENUM({
-        values: ['small','medium','large']
-      })
+      type: DataTypes.ENUM(PetPreferences.SIZE)
     },
     spayed_or_neutered: DataTypes.BOOLEAN,
     special_needs: DataTypes.BOOLEAN,
     species_name: {
-      type: DataTypes.ENUM({
-        values: ['dog','cat']
-      })
+      type: DataTypes.ENUM(PetPreferences.TYPE)
     },
     status: {
       type: DataTypes.STRING,
@@ -77,10 +73,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     tertiary_color: DataTypes.STRING
   }, {});
-  Pet.associate = function(models) {
+  pet.associate = function(models) {
     // Pet.belongsToMany(models.Users, { through: 'Liked_Pet', onDelete: 'CASCADE'});
     // Pet.hasMany(models.Liked_Pet, { onDelete: 'CASCADE' })
-    // Pet.belongsTo(models.Shelters, {foreignKey: 'shelterId', targetKey: 'id'})
+    pet.belongsTo(models.shelter, {
+      foreignKey: 'shelterId', 
+      targetKey: 'id'})
   };
-  return Pet;
+  return pet;
 };

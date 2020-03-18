@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   shelter.associate = function(models) {
-    // Shelter.hasMany(models.Pets, {foreignKey: 'shelterId', sourceKey: 'id', onDelete: 'CASCADE'})
+    shelter.hasMany(models.pet, {
+      foreignKey: 'shelter_id', 
+      sourceKey: 'id', 
+      onDelete: 'CASCADE'})
   };
   return shelter;
 };

@@ -1,0 +1,165 @@
+const db = require('../index');
+const { cleanUpDb, closeDbConnection } = require('../../utils/test/index')
+
+afterEach(cleanUpDb);
+afterAll(closeDbConnection);
+
+const petDatum = {
+    age: 'old',
+    coat: 'long',
+    declawed: false,
+    description: 'A fun loving cuddler looking for a fur-ever place to leave his toys',
+    good_with_children: true,
+    good_with_dogs: true,
+    good_with_cats: false,
+    house_trained: true,
+    is_mixed_breed: true,
+    is_unknown_breed: false,
+    name: 'Bogart',
+    photos: ['https://www.photohub.com/bogartthebulldog'],
+    primary_breed: 'French Bull Dog',
+    primary_color: 'white',
+    preference_one_value: 1,
+    preference_two_value: 3,
+    preference_three_value: 2,
+    preference_four_value: 4,
+    secondary_breed: 'boxer',
+    secondary_color: 'brown',
+    sex: 'male',
+    shots_are_current: true,
+    size: 'small',
+    spayed_or_neutered: true,
+    special_needs: false,
+    species_name: 'dog',
+    status: 'available',
+    tertiary_color: 'black',
+}
+
+const shelterDatum = {
+    name: 'Bean-Town Pups and Kitties',        
+    location: `{
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02144"
+    }`,
+    hours: `{
+      "monday": "9-5",
+      "tuesday": "9-5",
+      "wednesday": "9-5",
+      "thursday": "9-5",
+      "friday": "9-5",
+      "saturday": "9-5",
+      "sunday": "9-5"
+    }`,
+    phone: '(617) 214 - 3131',
+    email: 'BTPupsNKitties@BostonShelters.com',
+    organization_id: 'A104',
+};
+
+
+const petCreateWithBadShelterId = () => db.pet.create(
+    {
+        ...petDatum,
+        shelter_id: 'f52eefdd-4291-40f9-896c-d17c0b12d916'
+    }
+)
+
+const petCreateWithNullShelter = (valueToNull) =>
+    db.pet.create(
+    {
+        ...petDatum,
+        [valueToNull]: null
+    }
+)
+
+const petCreateWithNullValue = (shelter, valueToNull) => 
+    db.pet.create(
+        {
+            ...petDatum,
+            shelter_id: shelter.id,
+            [valueToNull]: null
+        }
+    )
+
+describe('Pet Model', () => {
+    describe('Association Validations', () => {
+      it('should require presence of shelter_id', async () => {
+        const fieldToTest = 'shelter_id';
+        await expect(petCreateWithNullShelter(fieldToTest)).rejects.toThrow(`notNull Violation: pet.${fieldToTest} cannot be null`);
+      });
+      it('should throw an error if shelter_id is not an existing shelter_id', async () => {
+        await expect(petCreateWithBadShelterId()).rejects.toThrow(`insert or update on table \"pets\" violates foreign key constraint \"pets_shelter_id_fkey\"`)
+      });
+      it('should save same shelter_id as parent shelter', async () => {
+        const shelter = await db.shelter.create(shelterDatum)
+        const pet = await db.pet.create({
+            ...petDatum,
+            shelter_id: shelter.id
+        })
+        await expect(pet.shelter_id).toBe(shelter.id);
+      });
+    }),
+
+    describe('Standard Validations', () => {
+        it('should require a age to be present', async () => {
+            const valueToNull = 'age'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a flag for unknown breed to be present', async () => {
+            const valueToNull = 'is_unknown_breed'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a name to be present', async () => {
+            const valueToNull = 'name'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`null value in column \"${valueToNull}\" violates not-null constraint`)
+        });
+        it('should require a photo to be present', async () => {
+            const valueToNull = 'photos'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`null value in column \"${valueToNull}\" violates not-null constraint`)
+        });
+        it('should require a primary color to be present', async () => {
+            const valueToNull = 'primary_color'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a preference for value one to be present', async () => {
+            const valueToNull = 'preference_one_value'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a preference for value two to be present', async () => {
+            const valueToNull = 'preference_two_value'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a preference for value three to be present', async () => {
+            const valueToNull = 'preference_three_value'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a preference for value four to be present', async () => {
+            const valueToNull = 'preference_four_value'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a gender to be present', async () => {
+            const valueToNull = 'sex'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a size to be present', async () => {
+            const valueToNull = 'size'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+        it('should require a status to be present', async () => {
+            const valueToNull = 'status'
+            const shelter = await db.shelter.create(shelterDatum)
+            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
+        });
+    })
+})
