@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Shelter = sequelize.define('Shelters', {
+  const shelter = sequelize.define('shelter', {
     id: {
       allowNull: false,
       defaultValue: DataTypes.UUIDV4,
@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     }
   }, {});
-  Shelter.associate = function(models) {
+  shelter.associate = function(models) {
     // Shelter.hasMany(models.Pets, {foreignKey: 'shelterId', sourceKey: 'id', onDelete: 'CASCADE'})
   };
-  return Shelter;
+  return shelter;
 };
