@@ -1,50 +1,9 @@
 const db = require('../index');
 const { cleanUpDb, closeDbConnection } = require('../../utils/test/index');
+const { shelterDatum, shelter2Datum } = require('./sample-test-datum.js')
 
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);
-
-const shelterDatum = {
-    name: 'Bean-Town Pups and Kitties',        
-    location: `{
-      "city": "Boston",
-      "state": "MA",
-      "zip": "02144"
-    }`,
-    hours: `{
-      "monday": "9-5",
-      "tuesday": "9-5",
-      "wednesday": "9-5",
-      "thursday": "9-5",
-      "friday": "9-5",
-      "saturday": "9-5",
-      "sunday": "9-5"
-    }`,
-    phone: '(617) 214 - 3131',
-    email: 'BTPupsNKitties@BostonShelters.com',
-    organization_id: 'A104',
-};
-
-const shelter2Datum = {
-  name: 'Seattle Sky Shelter',
-  location: `{
-    "city": "Seattle",
-    "state": "WA",
-    "zip": "98115
-  }`,
-  hours: `{
-    "monday": "6 - 2",
-      "tuesday": "6 - 2",
-      "wednesday": "6 - 2",
-      "thursday": "6 - 2",
-      "friday": "6 - 2",
-      "saturday": "6 - 2",
-      "sunday": "6 - 2"
-    }`,
-    phone: '(217) 314 - 9867',
-    email: 'SkyShelter@SeattleShelters.com',
-    organization_id: 'C912',
-}
 
 const shelterCreateWithNullValue = (valueToBeNull) => db.shelter.create(
   {

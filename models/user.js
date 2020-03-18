@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     })
     user.belongsToMany(models.pet, {
-      ase: 'LikedBy',
+      as: 'LikedBy',
       through: models.liked_pet,
       foreignKey: 'user_id',
       otherKey: 'pet_id'

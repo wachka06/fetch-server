@@ -9,5 +9,5 @@ const server = new ApolloServer({
 server.listen(
   { port: process.env.PORT || 4000 },
 ).then(({ url }) => {
-  console.log(`Woohoo! We are good to go on ${url}!`, process.env);
+  console.log(`Woohoo! We are good to go on ${url}!`);
 });
