@@ -31,22 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    preference_one_value: {
-      type: DataTypes.NUMBER,
-      allowNull: false
-    },
-    preference_two_value: {
-      type: DataTypes.NUMBER,
-      allowNull: false
-    },
-    preference_three_value: {
-      type: DataTypes.NUMBER,
-      allowNull: false
-    },
-    preference_four_value: {
-      type: DataTypes.NUMBER,
-      allowNull: false
-    },
     secondary_breed: DataTypes.STRING,
     secondary_color: DataTypes.STRING,
     sex: {

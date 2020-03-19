@@ -19,9 +19,8 @@ module.exports = {
     last_name: {
       type: Sequelize.STRING,
     },
-    zipcode: {
-      allowNull: false,
-      type: Sequelize.STRING,
+    location: {
+      type: Sequelize.JSONB,
     },
     pet_age_preference: {
       type: Sequelize.ENUM(PetPreferences.AGE),

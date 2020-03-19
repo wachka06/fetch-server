@@ -56,22 +56,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      preference_one_value: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      preference_two_value: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      preference_three_value: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      preference_four_value: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       secondary_breed: {
         type: Sequelize.STRING
       },

@@ -24,7 +24,6 @@ describe('Liked Pets Model', () => {
             await expect(likedPetInstance.pet_id).toBe(pet.id)
         })
         it('should require an active user_id from the users table', async() => {
-            const user = await db.user.create(userDatum)
             const shelter = await db.shelter.create(shelterDatum)
             const pet = await db.pet.create({
                 ...petDatum,
@@ -38,11 +37,6 @@ describe('Liked Pets Model', () => {
         })
         it('should require an active pet_id from the pets table', async() => {
             const user = await db.user.create(userDatum)
-            const shelter = await db.shelter.create(shelterDatum)
-            const pet = await db.pet.create({
-                ...petDatum,
-                shelter_id: shelter.id
-            })
             await expect(db.liked_pet.create({
                 ...likedPetDatum,
                 user_id: user.id,

@@ -74,26 +74,6 @@ describe('Pet Model', () => {
             const shelter = await db.shelter.create(shelterDatum)
             await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
         });
-        it('should require a preference for value one to be present', async () => {
-            const valueToNull = 'preference_one_value'
-            const shelter = await db.shelter.create(shelterDatum)
-            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
-        });
-        it('should require a preference for value two to be present', async () => {
-            const valueToNull = 'preference_two_value'
-            const shelter = await db.shelter.create(shelterDatum)
-            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
-        });
-        it('should require a preference for value three to be present', async () => {
-            const valueToNull = 'preference_three_value'
-            const shelter = await db.shelter.create(shelterDatum)
-            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
-        });
-        it('should require a preference for value four to be present', async () => {
-            const valueToNull = 'preference_four_value'
-            const shelter = await db.shelter.create(shelterDatum)
-            await expect(petCreateWithNullValue(shelter, valueToNull)).rejects.toThrow(`notNull Violation: pet.${valueToNull} cannot be null`)
-        });
         it('should require a gender to be present', async () => {
             const valueToNull = 'sex'
             const shelter = await db.shelter.create(shelterDatum)
