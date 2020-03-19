@@ -7,9 +7,9 @@ module.exports = {
       unique: true,
       type: Sequelize.UUID,
     },
-    location: {
+    zipcode: {
       allowNull: false,
-      type: Sequelize.JSONB,
+      type: Sequelize.STRING,
     },
     name: {
       type: Sequelize.STRING
@@ -25,7 +25,7 @@ module.exports = {
       type: Sequelize.STRING,
       unique: true
     },
-    organization_id: {
+    pet_finder_id: {
       allowNull: false,
       type: Sequelize.STRING,
       unique: true,

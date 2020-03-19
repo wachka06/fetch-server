@@ -21,16 +21,16 @@ const shelterCreateWithSameValue = (valueToBeSame) => db.shelter.create(
 
 describe('Shelter Model', () => {
   describe('validations', () => {
-    it('should require presence of organization_id', async () => {
-      const fieldToTest = 'organization_id';
+    it('should require presence of pet_finder_id', async () => {
+      const fieldToTest = 'pet_finder_id';
       await expect(shelterCreateWithNullValue(fieldToTest)).rejects.toThrow(`notNull Violation: shelter.${fieldToTest} cannot be null`);
     });
-    it('should require presence of location', async () => {
-      const fieldToTest = 'location';
+    it('should require presence of zipcode', async () => {
+      const fieldToTest = 'zipcode';
       await expect(shelterCreateWithNullValue(fieldToTest)).rejects.toThrow(`notNull Violation: shelter.${fieldToTest} cannot be null`)
     });
-    it('should not allow duplicate organization_ids', async () => {
-      const toUpdate = 'organization_id';
+    it('should not allow duplicate pet_finder_id', async () => {
+      const toUpdate = 'pet_finder_id';
       const validShelter = await db.shelter.create(shelterDatum);
       const invalidShelter = await shelterCreateWithSameValue(toUpdate).catch(({ name: errorName }) => errorName);
 

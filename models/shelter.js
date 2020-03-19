@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       unique: true
     },
-    location: {
+    zipcode: {
       allowNull: false,
-      type: DataTypes.JSONB
+      type: DataTypes.STRING
     },
     name: DataTypes.STRING,
     hours: DataTypes.JSONB,
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    organization_id: {
+    pet_finder_id: {
       allowNull: false,
       type: DataTypes.STRING,
       unique: true,

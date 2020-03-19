@@ -2,13 +2,7 @@ const userDatum = {
     email: 'gtoledo342@gmail.com',
     first_name: 'Gabe',
     last_name: 'Toledo',
-    location: {
-      streetNumber: '925',
-      street: 'Cherry Street',
-      city: 'Seattle',
-      state: 'WA',
-      postcode: '98104',
-    },
+    zipcode: '98104',
     pet_distance_preference: 10,
     pet_age_preference: 'young',
     pet_size_preference: 'small',
@@ -21,11 +15,7 @@ const userDatum = {
 
   const shelterDatum = {
     name: 'Bean-Town Pups and Kitties',        
-    location: `{
-      "city": "Boston",
-      "state": "MA",
-      "zip": "02144"
-    }`,
+    zipcode: "02144",
     hours: `{
       "monday": "9-5",
       "tuesday": "9-5",
@@ -37,16 +27,12 @@ const userDatum = {
     }`,
     phone: '(617) 214 - 3131',
     email: 'BTPupsNKitties@BostonShelters.com',
-    organization_id: 'A104',
+    pet_finder_id: 'A104',
 };
 
 const shelter2Datum = {
     name: 'Seattle Sky Shelter',
-    location: `{
-      "city": "Seattle",
-      "state": "WA",
-      "zip": "98115
-    }`,
+    zipcode:'98115',
     hours: `{
       "monday": "6 - 2",
         "tuesday": "6 - 2",
@@ -58,7 +44,7 @@ const shelter2Datum = {
       }`,
       phone: '(217) 314 - 9867',
       email: 'SkyShelter@SeattleShelters.com',
-      organization_id: 'C912',
+      pet_finder_id: 'C912',
   }
 
   const petDatum = {

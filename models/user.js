@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    location: DataTypes.JSONB,
+    zipcode: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
     pet_age_preference: DataTypes.ENUM(PetPreferences.AGE),
     pet_distance_preference: DataTypes.INTEGER,
     pet_size_preference: DataTypes.ENUM(PetPreferences.SIZE),
