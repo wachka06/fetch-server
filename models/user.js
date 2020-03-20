@@ -22,13 +22,27 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    location: DataTypes.JSONB,
+    zipcode: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
     pet_age_preference: DataTypes.ENUM(PetPreferences.AGE),
     pet_distance_preference: DataTypes.INTEGER,
     pet_size_preference: DataTypes.ENUM(PetPreferences.SIZE),
     pet_type_preference: DataTypes.ENUM(PetPreferences.TYPE),
   }, {});
   user.associate = function (models) {
+    user.hasMany(models.liked_pet, {
+      foreignKey: 'user_id',
+      sourceKey: 'id',
+      onDelete: 'CASCADE'
+    })
+    user.belongsToMany(models.pet, {
+      as: 'LikedBy',
+      through: models.liked_pet,
+      foreignKey: 'user_id',
+      otherKey: 'pet_id'
+    })
   };
   return user;
 };

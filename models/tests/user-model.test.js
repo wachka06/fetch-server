@@ -1,31 +1,9 @@
-/* eslint-disable no-undef */
-
 const db = require('../index');
 const { cleanUpDb, closeDbConnection } = require('../../utils/test/index');
+const { userDatum } = require('./sample-test-datum.js')
 
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);
-
-const userDatum = {
-  email: 'gtoledo342@gmail.com',
-  first_name: 'Gabe',
-  last_name: 'Toledo',
-  location: {
-    streetNumber: '925',
-    street: 'Cherry Street',
-    city: 'Seattle',
-    state: 'WA',
-    postcode: '98104',
-  },
-  pet_distance_preference: 10,
-  pet_age_preference: 'young',
-  pet_size_preference: 'small',
-  pet_type_preference: 'dog',
-  pet_preference_one: 0,
-  pet_preference_two: 0,
-  pet_preference_three: 0,
-  pet_preference_four: 0,
-};
 
 const userCreateWithNullValue = (valueToBeNull) => db.user.create(
   {
