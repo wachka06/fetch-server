@@ -1,6 +1,6 @@
 const db = require('../index');
 const { cleanUpDb, closeDbConnection } = require('../../utils/test/index');
-const { userDatum } = require('./sample-test-datum.js')
+const { userDatum } = require('./sample-test-datum.js');
 
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);

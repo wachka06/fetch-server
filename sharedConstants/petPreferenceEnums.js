@@ -1,10 +1,10 @@
-const AGE = ['young', 'old'];
+const AGE = ['young', 'old', 'senior'];
 
 const SIZE = ['small', 'medium', 'large'];
 
 const TYPE = ['dog', 'cat', 'no preference'];
 
-const SEX = ['male', 'female', 'unknown']
+const SEX = ['male', 'female', 'unknown'];
 
 module.exports = {
   AGE,

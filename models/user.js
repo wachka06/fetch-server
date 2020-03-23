@@ -35,14 +35,14 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.liked_pet, {
       foreignKey: 'user_id',
       sourceKey: 'id',
-      onDelete: 'CASCADE'
-    })
+      onDelete: 'CASCADE',
+    });
     user.belongsToMany(models.pet, {
       as: 'LikedBy',
       through: models.liked_pet,
       foreignKey: 'user_id',
-      otherKey: 'pet_id'
-    })
+      otherKey: 'pet_id',
+    });
   };
   return user;
 };
