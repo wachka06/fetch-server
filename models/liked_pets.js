@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       unique: true
     },
-    likedAt: {
+    liked_at: {
       type: DataTypes.DATE
     },
     pet_id: {

@@ -1,4 +1,4 @@
-const DEPENDENCY = ['sometimes', 'often', 'constantly'];
+const DEPENDENCY = ['independent', 'semi-dependent', 'dependent'];
 
 const ACTIVITY = ['a couch potato', 'active', 'an athlete'];
 
