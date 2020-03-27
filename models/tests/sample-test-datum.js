@@ -7,10 +7,6 @@ const userDatum = {
     pet_age_preference: 'young',
     pet_size_preference: 'small',
     pet_type_preference: 'dog',
-    pet_preference_one: 0,
-    pet_preference_two: 0,
-    pet_preference_three: 0,
-    pet_preference_four: 0,
   };
 
   const shelterDatum = {
