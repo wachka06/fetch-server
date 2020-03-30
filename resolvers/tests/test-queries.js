@@ -20,30 +20,46 @@ const GET_PET_BY_ID = gql`
   query($id: ID!) {
     pet(id: $id) {
       id
+      shelter {
+        id
+        name
+        street_number
+        street
+        city
+        state
+        zipcode
+        hours
+        phone
+        email
+        longitude
+        latitude
+      }
+      likedBy {
+        id
+      }
+    }
+  }
+`;
+
+const GET_RANDOM_PET = gql`
+  query {
+    randomPet {
+      id
       age
-      coat
-      declawed
-      description
+      good_with_cats
       good_with_children
       good_with_dogs
-      good_with_cats
-      house_trained
-      is_mixed_breed
-      is_unknown_breed
+      likedBy {
+        id
+      }
       name
-      photos
-      primary_breed
-      primary_color
-      secondary_breed
-      secondary_color
+      pet_activity_value
+      pet_dependency_value
+      pet_social_value
+      pet_trainability_value
       sex
-      shots_are_current
       size
-      spayed_or_neutered
-      special_needs
       species_name
-      status
-      tertiary_color
       shelter {
         city
         email
@@ -63,8 +79,8 @@ const GET_PET_BY_ID = gql`
 `;
 
 const GET_SHELTER = gql`
-  query($id: ID!){
-    getShelter(id: $id){
+  query($id: ID!) {
+    shelter(id: $id) {
       city
       email
       hours
@@ -86,7 +102,8 @@ const GET_SHELTER = gql`
 `;
 
 module.exports = {
-  GET_PET_BY_ID,
   GET_CURRENT_USER,
   GET_SHELTER,
+  GET_PET_BY_ID,
+  GET_RANDOM_PET,
 };
