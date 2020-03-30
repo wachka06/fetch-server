@@ -8,8 +8,8 @@ const prodServer = {
   context: ({ req }) => {
     const token = req.headers.authorization;
     if (token) {
-      const user = decodedJWT(token);
-      return { db, user };
+      const userId = decodedJWT(token);
+      return { db, userId };
     }
     return { db };
   },
@@ -21,8 +21,8 @@ const devServer = {
   context: ({ req }) => {
     const token = req.headers.authorization;
     if (token) {
-      const user = decodedJWT(token);
-      return { db, user };
+      const userId = decodedJWT(token);
+      return { db, userId };
     }
     return { db };
   },

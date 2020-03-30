@@ -84,12 +84,45 @@ const petDatum = {
   tertiary_color: 'black',
 };
 
+const petDatum2 = {
+  age: 'ADULT',
+  coat: 'long',
+  declawed: false,
+  description:
+    'Friendly',
+  good_with_children: true,
+  good_with_dogs: true,
+  good_with_cats: false,
+  house_trained: true,
+  is_mixed_breed: true,
+  is_unknown_breed: false,
+  name: 'Ramen',
+  photos: ['https://www.photohub.com/shiba'],
+  primary_breed: 'Shiba',
+  primary_color: 'white',
+  preference_one_value: 1,
+  preference_two_value: 3,
+  preference_three_value: 2,
+  preference_four_value: 4,
+  secondary_breed: 'boxer',
+  secondary_color: 'brown',
+  sex: 'MALE',
+  shots_are_current: true,
+  size: 'SMALL',
+  spayed_or_neutered: true,
+  special_needs: false,
+  species_name: 'DOG',
+  status: 'ADOPTED',
+  tertiary_color: 'black',
+};
+
 const likedPetDatum = {
   liked_at: Date(),
 };
 
 module.exports = {
   petDatum,
+  petDatum2,
   userDatum,
   shelterDatum,
   shelter2Datum,

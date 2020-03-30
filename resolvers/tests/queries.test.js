@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 require('dotenv').config();
-const { ApolloServer } = require('apollo-server');
+const { gql, ApolloServer } = require('apollo-server');
 const { createTestClient } = require('apollo-server-testing');
 const { testServer } = require('../../config/server');
 const {
@@ -13,6 +14,8 @@ const {
   GET_PET_BY_ID,
   GET_RANDOM_PET,
   GET_SHELTER,
+  GET_LIKED_PET,
+  GET_LIKED_PETS,
 } = require('./test-queries');
 const {
   userDatum,
@@ -147,7 +150,6 @@ describe('Query resolvers', () => {
         ...sampleShelter.dataValues,
         pets: [{ id: samplePet.id, name: samplePet.name }],
       };
-
       delete testObject.createdAt;
       delete testObject.updatedAt;
       delete testObject.pet_finder_id;
@@ -225,5 +227,68 @@ describe('Query resolvers', () => {
         `There are no remaining pets that match the current user preferences`
       );
     });
+  });
+
+  describe('LikedPet Queries', () => {
+    it('gets the likedPet', async () => {
+      const sampleUser = await db.user.create(userDatum);
+      const token = encodedJWT(sampleUser.dataValues.id);
+      const { query } = createTestClient(new ApolloServer(testServer(token)));
+      const sampleShelter = await db.shelter.create(shelterDatum);
+      const samplePet = await db.pet.create({
+        ...petDatum,
+        shelter_id: sampleShelter.id,
+      });
+      const sampleLikedPet = await db.liked_pet.create({
+        user_id: sampleUser.id,
+        pet_id: samplePet.id,
+        liked_at: new Date(),
+      });
+      const res = await query({ query: GET_LIKED_PET, variables: { id: sampleLikedPet.id } });
+      expect(res.data.likedPet.id).toMatch(sampleLikedPet.id);
+      expect(res.data.likedPet.user.email).toMatch(sampleUser.email);
+      expect(res.data.likedPet.pet.id).toMatch(samplePet.id);
+    });
+    it('returns missing ID error for requests without an likedPet ID', async () => {
+      const { query } = await getQuery();
+      const res = await query({
+        query: GET_LIKED_PET,
+        variables: {
+          id: null,
+        },
+      });
+      expect(res.errors[0].message).toMatch(
+        'Variable "$id" of non-null type "ID!" must not be null.'
+      );
+    });
+    it('gets array of likedPets', async () => {
+      const sampleUser = await db.user.create(userDatum);
+      const token = encodedJWT(sampleUser.dataValues.id);
+      const { query } = createTestClient(new ApolloServer(testServer(token)));
+      const sampleShelter = await db.shelter.create(shelterDatum);
+      const samplePet = await db.pet.create({
+        ...petDatum,
+        shelter_id: sampleShelter.id,
+      });
+      const sampleLikedPet = await db.liked_pet.create({
+        user_id: sampleUser.id,
+        pet_id: samplePet.id,
+        liked_at: new Date(),
+      });
+      const sampleLikedPet2 = await db.liked_pet.create({
+        user_id: sampleUser.id,
+        pet_id: samplePet.id,
+        liked_at: new Date(),
+      });
+      const res = await query({ query: GET_LIKED_PETS });
+      expect(res.data.likedPets.length).toEqual(await db.liked_pet.count());
+    });
+  });
+
+  it('should return an error when no token present', async () => {
+    const token = undefined;
+    const { query } = createTestClient(new ApolloServer(testServer(token)));
+    const res = await query({ query: GET_CURRENT_USER });
+    expect(res.errors[0].message).toMatch('Not authorized for that action');
   });
 });
