@@ -34,5 +34,10 @@ describe('User Model', () => {
       expect(validUser.email).toBe(userDatum.email);
       expect(invalidUser).toBe('SequelizeUniqueConstraintError');
     });
+    it('should have valid latitude and longitude fields', async () => {
+      const user = await db.user.create(userDatum);
+      expect(user.latitude).toBeDefined();
+      expect(user.longitude).toBeDefined();
+    });
   });
 });
