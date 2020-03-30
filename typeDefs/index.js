@@ -64,6 +64,6 @@ const root = gql`
     }
 `;
 
-const typeDefs = [root, user, pet, likedPet, shelter];
+const typeDefs = [root, user, pet, shelter];
 
 module.exports = typeDefs;
