@@ -44,7 +44,7 @@ const shelter2Datum = {
   }
 
   const petDatum = {
-    age: 'old',
+    age: 'young',
     coat: 'long',
     declawed: false,
     description: 'A fun loving cuddler looking for a fur-ever place to leave his toys',
@@ -70,7 +70,7 @@ const shelter2Datum = {
     spayed_or_neutered: true,
     special_needs: false,
     species_name: 'dog',
-    status: 'available',
+    status: 'adopted',
     tertiary_color: 'black',
   }
 
