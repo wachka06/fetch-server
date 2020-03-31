@@ -1,4 +1,4 @@
-const PetPreferences = require('../sharedConstants/petPreferenceEnums');
+const PetPreferences = require('../sharedConstants/petPreferenceEnumsV2');
 
 module.exports = (sequelize, DataTypes) => {
   const pet = sequelize.define('pet', {
@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     age: {
-      type: DataTypes.ENUM(PetPreferences.AGE),
+      type: DataTypes.ENUM(PetPreferences.PET_AGE),
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM(PetPreferences.STATUS),
+      type: DataTypes.ENUM(PetPreferences.PET_STATUS),
       allowNull: false
     },
     description: DataTypes.STRING,
@@ -25,10 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     size: {
       allowNull: false,
-      type: DataTypes.ENUM(PetPreferences.SIZE)
+      type: DataTypes.ENUM(PetPreferences.PET_SIZE)
     },
     sex: {
-      type: DataTypes.ENUM(PetPreferences.SEX),
+      type: DataTypes.ENUM(PetPreferences.PET_SEX),
       allowNull: false
     },
     primary_breed: DataTypes.STRING,
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     species_name: {
-      type: DataTypes.ENUM(PetPreferences.TYPE)
+      type: DataTypes.ENUM(PetPreferences.PET_TYPE)
     },
     coat: DataTypes.STRING,
     primary_color: {
@@ -56,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
     good_with_children: DataTypes.BOOLEAN,
     good_with_dogs: DataTypes.BOOLEAN,
     good_with_cats: DataTypes.BOOLEAN,
-    pet_dependency_value: DataTypes.ENUM(PetPreferences.DEPENDENCY),
-    pet_activity_value: DataTypes.ENUM(PetPreferences.ACTIVITY),
-    pet_social_value: DataTypes.ENUM(PetPreferences.SOCIAL),
-    pet_trainability_value: DataTypes.ENUM(PetPreferences.TRAINABILITY),
-    recommended_experience_level: DataTypes.ENUM(PetPreferences.EXPERIENCE),
+    pet_dependency_value: DataTypes.ENUM(PetPreferences.PET_DEPENDENCY),
+    pet_activity_value: DataTypes.ENUM(PetPreferences.PET_ACTIVITY),
+    pet_social_value: DataTypes.ENUM(PetPreferences.PET_SOCIABILITY),
+    pet_trainability_value: DataTypes.ENUM(PetPreferences.PET_TRAINABILITY),
+    recommended_experience_level: DataTypes.ENUM(PetPreferences.PET_EXPERIENCE_LEVEL),
   }, {});
   pet.associate = function(models) {
     pet.hasMany(models.liked_pet, {

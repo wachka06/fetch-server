@@ -4,14 +4,18 @@ const userDatum = {
   last_name: 'Toledo',
   zipcode: '98104',
   pet_distance_preference: 10,
-  pet_age_preference: 'young',
-  pet_size_preference: 'small',
-  pet_type_preference: 'dog',
+  pet_age_preference: 'YOUNG',
+  pet_size_preference: 'SMALL',
+  pet_type_preference: 'DOG',
 };
 
 const shelterDatum = {
   name: 'Bean-Town Pups and Kitties',
-  zipcode: 'I AM NOT NULL',
+  street_number: '10',
+  street: 'Chandler Street',
+  city: 'Boston',
+  state: 'MA',
+  zipcode: '02144',
   hours: `{
       "monday": "9-5",
       "tuesday": "9-5",
@@ -28,6 +32,10 @@ const shelterDatum = {
 
 const shelter2Datum = {
   name: 'Seattle Sky Shelter',
+  street_number: '13212',
+  street: 'SE Eastgate Way',
+  city: 'Bellevue',
+  state: 'WA',
   zipcode: '98115',
   hours: `{
       "monday": "6 - 2",
@@ -44,7 +52,7 @@ const shelter2Datum = {
 };
 
 const petDatum = {
-  age: 'old',
+  age: 'SENIOR',
   coat: 'long',
   declawed: false,
   description:
@@ -65,13 +73,13 @@ const petDatum = {
   preference_four_value: 4,
   secondary_breed: 'boxer',
   secondary_color: 'brown',
-  sex: 'male',
+  sex: 'MALE',
   shots_are_current: true,
-  size: 'small',
+  size: 'SMALL',
   spayed_or_neutered: true,
   special_needs: false,
-  species_name: 'dog',
-  status: 'available',
+  species_name: 'DOG',
+  status: 'NOT_ADOPTED',
   tertiary_color: 'black',
 };
 

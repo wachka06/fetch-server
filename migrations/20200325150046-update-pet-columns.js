@@ -1,4 +1,4 @@
-const PetPreferences = require('../sharedConstants/petPreferenceEnums');
+const PetPreferences = require('../sharedConstants/petPreferenceEnumsV1');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

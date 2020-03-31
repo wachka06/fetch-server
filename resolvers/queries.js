@@ -8,7 +8,7 @@ const queries = {
   },
 
   pet: async (root, args, { db }) => 
-    await db.pet.findOne({
+    db.pet.findOne({
       where: { id: args.id },
       include: [{ model: db.shelter }],
     })
