@@ -5,6 +5,7 @@ const { testServer } = require('../../config/server');
 const { cleanUpDb, closeDbConnection } = require('../../utils/test/index');
 const { encodedJWT } = require('../../utils/auth');
 const db = require('../../models');
+require('dotenv').config();
 
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);

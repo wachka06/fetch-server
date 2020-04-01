@@ -53,5 +53,10 @@ describe('Shelter Model', () => {
       expect(validShelter[toUpdate]).toBe(shelterDatum[toUpdate]);
       expect(invalidShelter).toBe('SequelizeUniqueConstraintError')
     });
+    it('should have valid latitude and longitude fields', async () => {
+      const shelter = await db.shelter.create(shelter2Datum);
+      expect(shelter.latitude).toBeDefined();
+      expect(shelter.longitude).toBeDefined();
+    });
   });
 });

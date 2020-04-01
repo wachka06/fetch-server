@@ -1,4 +1,5 @@
 const PetPreferences = require('../sharedConstants/petPreferenceEnums');
+const { locationToCoordinates } = require('../utils/geocoding');
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
@@ -21,6 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     last_name: {
       allowNull: false,
       type: DataTypes.STRING,
+    },
+    latitude: {
+      type: DataTypes.FLOAT,
+    },
+    longitude: {
+      type: DataTypes.FLOAT,
     },
     zipcode: {
       allowNull: false,
@@ -51,7 +58,15 @@ module.exports = (sequelize, DataTypes) => {
     pet_good_with_children_preference: DataTypes.BOOLEAN,
     pet_good_with_dogs_preference: DataTypes.BOOLEAN,
     pet_good_with_cats_preference: DataTypes.BOOLEAN,
-  }, {});
+  }, {
+    hooks: {
+      beforeCreate: async (newUser) => {
+        const { latitude, longitude } = await locationToCoordinates({ zipcode: newUser.zipcode });
+        newUser.latitude = latitude;
+        newUser.longitude = longitude;
+      },
+    },
+  });
   user.associate = function (models) {
     user.hasMany(models.liked_pet, {
       foreignKey: 'user_id',
