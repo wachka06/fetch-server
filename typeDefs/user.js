@@ -7,10 +7,10 @@ const user = gql`
     email: String!
     id: ID!
     zipcode: String
-    pet_age_preference: PetAgePreference
+    pet_age_preference: AGE
     pet_distance_preference: Int
-    pet_size_preference: PetSizePreference
-    pet_type_preference: PetTypePreference
+    pet_size_preference: SIZE
+    pet_type_preference: TYPE
   }
 
   extend type Query {
@@ -18,11 +18,7 @@ const user = gql`
   }
 
   extend type Mutation {
-    createUser(
-      client_id: String!
-      id_token: String!
-      zipcode: String!
-    ): JWT!
+    createUser(client_id: String!, id_token: String!, zipcode: String!): JWT!
   }
 
   type JWT {

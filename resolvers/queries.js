@@ -6,6 +6,12 @@ const queries = {
     const userData = await db.user.findByPk(user.id);
     return userData;
   },
+
+  pet: async (root, args, { db }) => 
+    db.pet.findOne({
+      where: { id: args.id },
+      include: [{ model: db.shelter }],
+    })
 };
 
 module.exports = queries;

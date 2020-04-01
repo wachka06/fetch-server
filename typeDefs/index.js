@@ -1,69 +1,76 @@
 const { gql } = require('apollo-server');
 const user = require('./user');
 const pet = require('./pet');
-const likedPet = require('./likedPet');
 const shelter = require('./shelter');
 
 const root = gql`
-    enum Age {
-        young
-        adult 
-        senior
-    }
+  enum AGE {
+    YOUNG
+    ADULT
+    SENIOR
+  }
 
-    enum Size {
-        small
-        medium
-        large
-    }
+  enum DEPENDENCY {
+    INDEPENDENT
+    SOMEWHATE_DEPENDENT
+    DEPENDENT
+  }
 
-    enum Sex {
-        male
-        female
-    }
+  enum SIZE {
+    SMALL
+    MEDIUM
+    LARGE
+  }
 
-    enum Status {
-        adopted
-        not adopted
-    }
+  enum SEX {
+    MALE
+    FEMALE
+  }
 
-    enum Type {
-        dog
-        cat
-        no preference
-    }
+  enum STATUS {
+    ADPOTED
+    NOT_ADOPTED
+  }
 
-    enum Experience {
-        an expart
-        experienced
-        a novice
-    }
+  enum TYPE {
+    DOG
+    CAT
+    NO_PREFERENCE
+  }
 
-    enum Dependency {
-        sometimes
-        often
-        constantly
-    }
+  enum EXPERIENCE {
+    AN_EXPERT
+    EXPERIENCED
+    A_NOVICE
+  }
 
-    enum Activity {
-        a couch potato
-        active
-        an athlete
-    }
+  enum ACTIVITY {
+    A_COUCH_POTATO
+    ACTIVE
+    AN_ATHLETE
+  }
 
-    enum Social {
-        a wall flower
-        social
-        life of the party
-    }
+  enum SOCIAL {
+    A_WALL_FLOWER
+    SOCIAL
+    LIFE_OF_THE_PARTY
+  }
 
-    enum Trainability {
-        class clown
-        attentive student
-        teachers pet
-    }
+  enum TRAINABILITY {
+    CLASS_CLOWN
+    ATTENTIVE_STUDENT
+    TEACHERS_PET
+  }
+
+  type Query {
+    root: String
+  }
+
+  type Mutation {
+    root: String
+  }
 `;
 
-const typeDefs = [root, user, pet, likedPet, shelter];
+const typeDefs = [root, user, pet, shelter];
 
 module.exports = typeDefs;

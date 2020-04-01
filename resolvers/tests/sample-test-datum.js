@@ -52,7 +52,7 @@ const shelter2Datum = {
 };
 
 const petDatum = {
-  age: 'ADULT',
+  age: 'SENIOR',
   coat: 'long',
   declawed: false,
   description:
@@ -79,7 +79,7 @@ const petDatum = {
   spayed_or_neutered: true,
   special_needs: false,
   species_name: 'DOG',
-  status: 'ADOPTED',
+  status: 'NOT_ADOPTED',
   tertiary_color: 'black',
 };
 
