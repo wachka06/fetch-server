@@ -11,18 +11,39 @@ afterAll(closeDbConnection);
 jest.mock('../../utils/auth');
 
 const CREATE_USER = gql`
-  mutation(
-    $client_id: String!
-    $id_token: String!
-    $zipcode: String!
-  ){
+  mutation createUser($auth: AuthInput! $user: UserCreateInput!){
     createUser(
-        client_id: $client_id
-        id_token: $id_token
-        zipcode: $zipcode
-      ){
+      auth: $auth
+      user: $user){
         token
       }
+  }
+`;
+
+const UPDATE_USER = gql`
+  mutation updateUser($user: UserUpdateInput){
+    updateUser(user: $user){
+      email
+      first_name
+      id
+      last_name
+      latitude
+      longitude
+      pet_activity_preference
+      pet_age_preference
+      pet_dependency_preference
+      pet_distance_preference
+      pet_experience_level
+      pet_good_with_children_preference
+      pet_good_with_dogs_preference
+      pet_good_with_cats_preference
+      pet_size_preference
+      pet_sex_preference
+      pet_social_preference
+      pet_trainability_preference
+      pet_type_preference
+      zipcode
+    }  
   }
 `;
 
@@ -35,35 +56,111 @@ const mockIdTokenInfo = {
   family_name: 'Team',
 };
 
-describe('Mutation resolvers', () => {
-  it('creates a new user', async () => {
-    auth.idTokenIsValid.mockReturnValue(mockIdTokenInfo);
-    const { mutate } = createTestClient(new ApolloServer(testServer()));
-    await mutate({
-      mutation: CREATE_USER,
-      variables: {
-        client_id: 'clientId',
-        id_token: 'validToken',
-        zipcode: '98104',
-      },
-    });
-    const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
-    expect(newUser).toBeDefined();
-  });
+const createUserSample = {
+  pet_activity_preference: 'A_COUCH_POTATO',
+  pet_age_preference: 'ADULT',
+  pet_dependency_preference: 'SOMEWHAT_DEPENDENT',
+  pet_distance_preference: 20,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'MEDIUM',
+  pet_sex_preference: 'MALE',
+  pet_social_preference: 'A_WALL_FLOWER',
+  pet_trainability_preference: 'CLASS_CLOWN',
+  pet_type_preference: 'CAT',
+  zipcode: '98104',
+};
 
-  it('catches invalid  id_tokens', async () => {
-    auth.idTokenIsValid.mockImplementation(() => { throw new AuthenticationError('idToken is invalid.'); });
-    const { mutate } = createTestClient(new ApolloServer(testServer()));
-    const res = await mutate({
-      mutation: CREATE_USER,
-      variables: {
-        client_id: 'clientID',
-        id_token: 'invalidToken',
-        zipcode: '98104',
-      },
+const updateUserSample = {
+  email: 'gtoledo342@gmail.com',
+  first_name: 'Gabe',
+  last_name: 'Toledo',
+  pet_activity_preference: 'A_COUCH_POTATO',
+  pet_age_preference: 'ADULT',
+  pet_dependency_preference: 'SOMEWHAT_DEPENDENT',
+  pet_distance_preference: 20,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'MEDIUM',
+  pet_sex_preference: 'MALE',
+  pet_social_preference: 'A_WALL_FLOWER',
+  pet_trainability_preference: 'CLASS_CLOWN',
+  pet_type_preference: 'CAT',
+  zipcode: '98104',
+};
+
+const updateUserVariables = {
+  email: 'gto342@gmail.com',
+  first_name: 'Gab',
+  last_name: 'Toled',
+  pet_activity_preference: 'A_COUCH_POTATO',
+  pet_age_preference: 'ADULT',
+  pet_dependency_preference: 'SOMEWHAT_DEPENDENT',
+  pet_distance_preference: 20,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'MEDIUM',
+  pet_sex_preference: 'MALE',
+  pet_social_preference: 'A_WALL_FLOWER',
+  pet_trainability_preference: 'CLASS_CLOWN',
+  pet_type_preference: 'DOG',
+  zipcode: '92014',
+};
+
+describe('Mutation resolvers', () => {
+  describe('createUser', () => {
+    it('creates a new user', async () => {
+      auth.idTokenIsValid.mockReturnValue(mockIdTokenInfo);
+      const { mutate } = createTestClient(new ApolloServer(testServer()));
+      await mutate({
+        mutation: CREATE_USER,
+        variables: {
+          auth: {
+            client_id: 'clientID',
+            id_token: 'invalidToken',
+          },
+          user: { ...createUserSample },
+        },
+      });
+      const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
+      expect(newUser).toBeDefined();
     });
-    const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
-    expect(newUser).toBeNull();
-    expect(res.errors[0].message).toMatch('idToken is invalid.');
+    it('catches invalid  id_tokens', async () => {
+      auth.idTokenIsValid.mockImplementation(() => { throw new AuthenticationError('idToken is invalid.'); });
+      const { mutate } = createTestClient(new ApolloServer(testServer()));
+      const res = await mutate({
+        mutation: CREATE_USER,
+        variables: {
+          auth: {
+            client_id: 'clientID',
+            id_token: 'invalidToken',
+          },
+          user: { ...createUserSample },
+        },
+      });
+      const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
+      expect(newUser).toBeNull();
+      expect(res.errors[0].message).toMatch('idToken is invalid.');
+    });
+  });
+  describe('updateUser', () => {
+    it('updates user with updated fields', async () => {
+      const user = await db.user.create(updateUserSample);
+      const { mutate } = createTestClient(new ApolloServer(testServer(null, user.id)));
+      const res = await mutate({
+        mutation: UPDATE_USER,
+        variables: { user: { ...updateUserVariables } },
+      });
+      const updatedUser = await db.user.findByPk(user.id);
+      delete updatedUser.dataValues.createdAt;
+      delete updatedUser.dataValues.updatedAt;
+      expect(res.data.updateUser).toEqual(updatedUser.dataValues);
+    });
   });
 });

@@ -20,7 +20,7 @@ describe('Query resolvers', () => {
   describe('User queries', () => {
     it('gets the current user', async () => {
       const sampleUser = await db.user.create(userDatum);
-      const token = encodedJWT({ id: sampleUser.dataValues.id });
+      const token = encodedJWT(sampleUser.dataValues.id);
       const { query } = createTestClient(new ApolloServer(testServer(token)));
       const res = await query({ query: GET_CURRENT_USER });
       expect(res.data.currentUser.email).toMatch(sampleUser.email);

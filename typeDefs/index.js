@@ -12,7 +12,7 @@ const root = gql`
 
   enum DEPENDENCY {
     INDEPENDENT
-    SOMEWHATE_DEPENDENT
+    SOMEWHAT_DEPENDENT
     DEPENDENT
   }
 

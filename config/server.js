@@ -32,13 +32,18 @@ const devServer = {
   introspection: true,
 };
 
-const testServer = (token) => ({
+const testServer = (token, userId) => ({
   context: () => {
+    let contextObject;
     if (token) {
-      const user = decodedJWT(token);
-      return { db, user };
+      const decodedId = decodedJWT(token);
+      contextObject = { db, userId: decodedId };
+    } else if (userId) {
+      contextObject = { db, userId };
+    } else {
+      contextObject = { db };
     }
-    return { db };
+    return contextObject;
   },
   typeDefs,
   resolvers,
