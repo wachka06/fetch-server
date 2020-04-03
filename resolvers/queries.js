@@ -7,11 +7,18 @@ const queries = {
     return userData;
   },
 
-  pet: async (root, args, { db }) => 
-    db.pet.findOne({
+  pet: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    return db.pet.findOne({ where: { id: args.id }, include: [{ model: db.shelter }] });
+  },
+
+  shelter: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    return db.shelter.findOne({
       where: { id: args.id },
-      include: [{ model: db.shelter }],
-    })
+      include: [{ model: db.pet }],
+    });
+  },
 };
 
 module.exports = queries;
