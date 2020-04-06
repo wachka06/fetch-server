@@ -7,7 +7,7 @@ const { testServer } = require('../../config/server');
 
 const getQuery = async () => {
   const sampleUser = await db.user.create(userDatum);
-  const token = encodedJWT({ id: sampleUser.dataValues.id });
+  const token = encodedJWT(sampleUser.dataValues.id);
   return createTestClient(new ApolloServer(testServer(token)));
 };
 

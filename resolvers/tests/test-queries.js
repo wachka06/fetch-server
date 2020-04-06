@@ -45,12 +45,48 @@ const GET_PET_BY_ID = gql`
       status
       tertiary_color
       shelter {
+        city
+        email
+        hours
         id
+        latitude
+        longitude
+        name
+        phone
+        state
+        street
+        street_number
+        zipcode
       }
     }
   }
 `;
+
+const GET_SHELTER = gql`
+  query($id: ID!){
+    getShelter(id: $id){
+      city
+      email
+      hours
+      id
+      latitude
+      longitude
+      name
+      phone
+      pets {
+        id
+        name
+      }
+      state
+      street
+      street_number
+      zipcode
+    }
+  }
+`;
+
 module.exports = {
   GET_PET_BY_ID,
   GET_CURRENT_USER,
+  GET_SHELTER,
 };
