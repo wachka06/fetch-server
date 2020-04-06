@@ -1,6 +1,7 @@
 const { OAuth2Client } = require('google-auth-library');
 const { AuthenticationError } = require('apollo-server');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const idTokenIsValid = async (idToken, clientId) => {
   const client = new OAuth2Client(clientId);
