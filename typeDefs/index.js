@@ -28,7 +28,7 @@ const root = gql`
   }
 
   enum STATUS {
-    ADPOTED
+    ADOPTED
     NOT_ADOPTED
   }
 

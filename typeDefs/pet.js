@@ -13,6 +13,7 @@ const pet = gql`
     house_trained: Boolean
     is_mixed_breed: Boolean
     is_unknown_breed: Boolean!
+    likedBy: [User]!
     name: String
     pet_activity_value: ACTIVITY
     pet_dependency_value: DEPENDENCY
@@ -37,6 +38,7 @@ const pet = gql`
 
   extend type Query {
     pet(id: ID!): Pet
+    randomPet: Pet
   }
 `;
 
