@@ -29,24 +29,32 @@ const queries = {
       throw new ForbiddenError(
         'Sorry, you must be logged in to perform this action'
       );
+
+    const petsQueue = new Set(args.queuedPets);
     const userProfile = await db.user.findByPk(userId);
+
     const getPetsByFilter = (filter) =>
       db.pet.findAll({
         where: filter,
         include: [{ model: db.shelter }, { model: db.user, as: 'likedBy' }],
       });
+
     const petFilter = await createPetFilter(userProfile);
+
     await getPetsByFilter(petFilter)
-      .filter((matchedResult) => matchedResult.likedBy.id != userProfile.id)
+      .filter((unfilteredPet) => !petsQueue.has(unfilteredPet.id))
+      .filter((matchedResult) => matchedResult.likedBy.id !== userProfile.id)
       .then(
         (filteredResults) =>
           (randomPet =
             filteredResults[Math.floor(Math.random() * filteredResults.length)])
       );
+
     if (!randomPet)
       throw new ApolloError(
         'There are no remaining pets that match the current user preferences'
       );
+
     return randomPet;
   },
 };

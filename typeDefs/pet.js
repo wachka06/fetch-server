@@ -38,7 +38,7 @@ const pet = gql`
 
   extend type Query {
     pet(id: ID!): Pet
-    randomPet: Pet
+    randomPet(queuedPets: [ID]): Pet
   }
 `;
 
