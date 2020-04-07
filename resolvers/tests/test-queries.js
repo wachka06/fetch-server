@@ -102,7 +102,7 @@ const GET_SHELTER = gql`
 `;
 
 const GET_LIKED_PET = gql`
-  query($id: ID!) { 
+  query($id: ID!) {
     likedPet(id: $id) {
       id
       liked_at
@@ -115,7 +115,7 @@ const GET_LIKED_PET = gql`
         pet_age_preference
         pet_distance_preference
         pet_size_preference
-        pet_type_preference 
+        pet_type_preference
       }
       pet {
         id
@@ -149,9 +149,44 @@ const GET_LIKED_PET = gql`
 `;
 
 const GET_LIKED_PETS = gql`
-  query { 
+  query {
     likedPets {
       id
+    }
+  }
+`;
+
+const CREATE_USER = gql`
+  mutation createUser($auth: AuthInput!, $user: UserCreateInput!) {
+    createUser(auth: $auth, user: $user) {
+      token
+    }
+  }
+`;
+
+const UPDATE_USER = gql`
+  mutation updateUser($user: UserUpdateInput) {
+    updateUser(user: $user) {
+      email
+      first_name
+      id
+      last_name
+      latitude
+      longitude
+      pet_activity_preference
+      pet_age_preference
+      pet_dependency_preference
+      pet_distance_preference
+      pet_experience_level
+      pet_good_with_children_preference
+      pet_good_with_dogs_preference
+      pet_good_with_cats_preference
+      pet_size_preference
+      pet_sex_preference
+      pet_social_preference
+      pet_trainability_preference
+      pet_type_preference
+      zipcode
     }
   }
 `;
@@ -163,4 +198,6 @@ module.exports = {
   GET_RANDOM_PET,
   GET_LIKED_PET,
   GET_LIKED_PETS,
+  CREATE_USER,
+  UPDATE_USER,
 };
