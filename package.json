@@ -5,6 +5,8 @@
   "main": "index.js",
   "repository": "https://source.digital.accenture.com/scm/int/fetch-web-backend.git",
   "scripts": {
+    "getJSON": "node scripts/petsAndSheltersJSON.js $ZIPCODE",
+    "petsWithSheltersJSON": "node scripts/petsWithSheltersJSON.js $ZIPCODE",
     "db:create": "sequelize db:create",
     "db:create:all": "sequelize db:create && NODE_ENV=test sequelize db:create",
     "db:drop": "sequelize db:drop",
@@ -14,6 +16,8 @@
     "db:rollback": "sequelize db:migrate:undo",
     "db:rollback:all": "sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate:undo:all",
     "db:reset": "yarn db:drop && yarn db:setup",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:undo": "sequelize db:seed:undo:all",
     "db:setup": "yarn db:create && yarn db:migrate",
     "start": "node index.js",
     "test": "NODE_ENV=test jest --bail --runInBand --watch"

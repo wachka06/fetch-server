@@ -1,4 +1,3 @@
-const { locationToCoordinates } = require('../utils/geocoding');
 
 module.exports = (sequelize, DataTypes) => {
   const shelter = sequelize.define('shelter', {
@@ -48,19 +47,6 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
   }, {
-    hooks: {
-      beforeCreate: async (newShelter) => {
-        const { latitude, longitude } = await locationToCoordinates({
-          streetNumber: newShelter.street_number,
-          street: newShelter.street,
-          city: newShelter.city,
-          state: newShelter.state,
-          zipcode: newShelter.zipcode,
-        });
-        newShelter.latitude = latitude;
-        newShelter.longitude = longitude;
-      },
-    },
   });
   shelter.associate = function(models) {
     shelter.hasMany(models.pet, {
