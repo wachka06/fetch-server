@@ -25,7 +25,6 @@ const {
 } = require('./sample-test-datum');
 const db = require('../../models');
 
-
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);
 
@@ -224,6 +223,38 @@ describe('Query resolvers', () => {
         );
       const res = await query({ query: GET_RANDOM_PET });
       expect(res.errors[0].message).toBe(
+        `There are no remaining pets that match the current user preferences`
+      );
+    });
+    it('Should return only pets that do not exist in the queued pets arg', async () => {
+      const { query } = await getQuery();
+      const queuedPetsFilter = [];
+      const getNewPet = async (filter) =>
+        await query({
+          query: GET_RANDOM_PET,
+          variables: {
+            queuedPets: filter,
+          },
+        });
+      const firstRandomPet = await getNewPet();
+      queuedPetsFilter.push(firstRandomPet.data.randomPet.id);
+      const secondRandomPet = await getNewPet(queuedPetsFilter);
+      expect(queuedPetsFilter.includes(secondRandomPet.data.randomPet.id)).toBe(
+        false
+      );
+      queuedPetsFilter.push(secondRandomPet.data.randomPet.id);
+      const thirdRandomPet = await getNewPet(queuedPetsFilter);
+      expect(queuedPetsFilter.includes(thirdRandomPet.data.randomPet.id)).toBe(
+        false
+      );
+      queuedPetsFilter.push(thirdRandomPet.data.randomPet.id);
+      const fourthRandomPet = await getNewPet(queuedPetsFilter);
+      expect(queuedPetsFilter.includes(fourthRandomPet.data.randomPet.id)).toBe(
+        false
+      );
+      queuedPetsFilter.push(fourthRandomPet.data.randomPet.id);
+      const fifthRandomPet = await getNewPet(queuedPetsFilter);
+      expect(fifthRandomPet.errors[0].message).toBe(
         `There are no remaining pets that match the current user preferences`
       );
     });

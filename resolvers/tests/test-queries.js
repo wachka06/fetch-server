@@ -42,8 +42,8 @@ const GET_PET_BY_ID = gql`
 `;
 
 const GET_RANDOM_PET = gql`
-  query {
-    randomPet {
+  query($queuedPets: [ID]) {
+    randomPet(queuedPets: $queuedPets) {
       id
       age
       good_with_cats
