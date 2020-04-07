@@ -65,7 +65,7 @@ const queries = {
   likedPets: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     const likedPets = await db.liked_pet.findAll({
-    where: { user_id: userId },
+      where: { user_id: userId },
     });
     return likedPets;
   },

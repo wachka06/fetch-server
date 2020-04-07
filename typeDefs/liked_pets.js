@@ -14,6 +14,11 @@ const likedPet = gql`
     likedPet(id: ID!): LikedPet
     likedPets: [LikedPet]!
   }
+
+  extend type Mutation {
+    likePet(petId: ID!, isLiked: Boolean): LikedPet
+    unlikePet(likedPetId: ID!): LikedPet
+  }
 `
 
 module.exports = likedPet;

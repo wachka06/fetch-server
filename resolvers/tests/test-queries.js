@@ -191,13 +191,45 @@ const UPDATE_USER = gql`
   }
 `;
 
+const CREATE_LIKED_PET = gql`
+  mutation likePet($petId: ID!, $isLiked: Boolean) {
+    likePet(petId: $petId, isLiked: $isLiked) {
+      id
+      liked_at
+      user {
+        id
+      }
+      pet {
+        id
+      }
+    }
+  }
+`;
+
+const UNLIKE_PET = gql`
+  mutation unlikePet($likedPetId: ID!) {
+    unlikePet(likedPetId: $likedPetId) {
+      id
+      liked_at
+      user {
+        id
+      }
+      pet {
+        id
+      }
+    }
+  }
+`;
+
 module.exports = {
+  CREATE_LIKED_PET,
+  CREATE_USER,
   GET_CURRENT_USER,
-  GET_SHELTER,
-  GET_PET_BY_ID,
-  GET_RANDOM_PET,
   GET_LIKED_PET,
   GET_LIKED_PETS,
-  CREATE_USER,
+  GET_PET_BY_ID,
+  GET_RANDOM_PET,
+  GET_SHELTER,
+  UNLIKE_PET,
   UPDATE_USER,
 };
