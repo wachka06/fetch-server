@@ -21,7 +21,7 @@ const {
   multiplePetsDatum,
 } = require('./sample-test-datum');
 const db = require('../../models');
-require('dotenv').config();
+
 
 afterEach(cleanUpDb);
 afterAll(closeDbConnection);

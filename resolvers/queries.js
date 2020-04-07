@@ -9,7 +9,7 @@ const queries = {
   },
 
   pet: async (root, args, { db, userId }) => {
-    // if (!userId) throw new ForbiddenError('Not authorized for that action');
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
     return db.pet.findOne({
       where: { id: args.id },
       include: [{ model: db.shelter }, { model: db.user, as: 'likedBy' }],
