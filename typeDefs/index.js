@@ -28,7 +28,7 @@ const root = gql`
   }
 
   enum STATUS {
-    ADPOTED
+    ADOPTED
     NOT_ADOPTED
   }
 
@@ -51,7 +51,7 @@ const root = gql`
   }
 
   enum SOCIAL {
-    A_WALL_FLOWER
+    A_WALLFLOWER
     SOCIAL
     LIFE_OF_THE_PARTY
   }
