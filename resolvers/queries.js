@@ -7,7 +7,6 @@ const queries = {
     const userData = await db.user.findByPk(userId);
     return userData;
   },
-
   pet: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     return db.pet.findOne({
@@ -15,7 +14,6 @@ const queries = {
       include: [{ model: db.shelter }, { model: db.user, as: 'likedBy' }],
     });
   },
-
   shelter: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     return db.shelter.findOne({
@@ -23,7 +21,14 @@ const queries = {
       include: [{ model: db.pet }],
     });
   },
-
+  likedPet: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    const userLikedpet = await db.liked_pet.findOne({
+      where: { id: args.id, user_id: userId },
+      include: [{ model: db.user }, { model: db.pet }],
+    });
+    return userLikedpet;
+  },
   randomPet: async (root, args, { db, userId }) => {
     if (!userId)
       throw new ForbiddenError(
@@ -48,6 +53,13 @@ const queries = {
         'There are no remaining pets that match the current user preferences'
       );
     return randomPet;
+  },
+  likedPets: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    const likedPets = await db.liked_pet.findAll({
+    where: { user_id: userId },
+    });
+    return likedPets;
   },
 };
 

@@ -67,7 +67,7 @@ const user = gql`
   }
 
   extend type Query {
-    currentUser: User
+    currentUser: User!
   }
 
   extend type Mutation {

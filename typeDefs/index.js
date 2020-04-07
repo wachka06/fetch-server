@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server');
 const user = require('./user');
 const pet = require('./pet');
+const likedPet = require('./liked_pets');
 const shelter = require('./shelter');
 
 const root = gql`
@@ -71,6 +72,6 @@ const root = gql`
   }
 `;
 
-const typeDefs = [root, user, pet, shelter];
+const typeDefs = [root, user, pet, shelter, likedPet];
 
 module.exports = typeDefs;

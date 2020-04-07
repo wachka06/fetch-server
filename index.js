@@ -8,8 +8,8 @@ const server = new ApolloServer({
   context: ({ req }) => {
     const token = req.headers.authorization;
     if (token) {
-      const user = decodedJWT(token);
-      return { db, user };
+      const userId = decodedJWT(token);
+      return { db, userId };
     }
     return { db };
   },

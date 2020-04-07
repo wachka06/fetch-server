@@ -1,6 +1,6 @@
 'use strict';
 
-const PetPreferences = require('../sharedConstants/petPreferenceEnums');
+const PetPreferences = require('../sharedConstants/petPreferenceEnumsV2');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
