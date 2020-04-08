@@ -52,7 +52,7 @@ const root = gql`
   }
 
   enum SOCIAL {
-    A_WALLFLOWER
+    A_WALL_FLOWER
     SOCIAL
     LIFE_OF_THE_PARTY
   }

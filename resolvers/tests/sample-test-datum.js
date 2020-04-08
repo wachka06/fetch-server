@@ -288,6 +288,72 @@ const likedPetDatum = {
   liked_at: Date(),
 };
 
+const mockIdTokenInfo = {
+  email: 'webapprenticeteam@gmail.com',
+  name: 'Web Apprentice Team',
+  picture:
+    'https://lh5.googleusercontent.com/-4Or8kbjRqT4/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nDnBdEORHOznTw4q10CRVxtJ9U96A/s96-c/photo.jpg',
+  given_name: 'Web Apprentice',
+  family_name: 'Team',
+};
+
+const createUserSample = {
+  pet_activity_preference: 'A_COUCH_POTATO',
+  pet_age_preference: 'ADULT',
+  pet_dependency_preference: 'SOMEWHAT_DEPENDENT',
+  pet_distance_preference: 30,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'MEDIUM',
+  pet_sex_preference: 'MALE',
+  pet_social_preference: 'A_WALL_FLOWER',
+  pet_trainability_preference: 'CLASS_CLOWN',
+  pet_type_preference: 'CAT',
+  zipcode: '98104',
+};
+
+const updateUserSample = {
+  email: 'gtoledo342@gmail.com',
+  first_name: 'Gabe',
+  last_name: 'Toledo',
+  pet_activity_preference: 'A_COUCH_POTATO',
+  pet_age_preference: 'ADULT',
+  pet_dependency_preference: 'SOMEWHAT_DEPENDENT',
+  pet_distance_preference: 20,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'MEDIUM',
+  pet_sex_preference: 'MALE',
+  pet_social_preference: 'A_WALL_FLOWER',
+  pet_trainability_preference: 'CLASS_CLOWN',
+  pet_type_preference: 'CAT',
+  zipcode: '98104',
+};
+
+const updateUserVariables = {
+  email: 'gto342@gmail.com',
+  first_name: 'Gab',
+  last_name: 'Toled',
+  pet_activity_preference: 'ACTIVE',
+  pet_age_preference: 'YOUNG',
+  pet_dependency_preference: 'INDEPENDENT',
+  pet_distance_preference: 20,
+  pet_experience_level: 'EXPERIENCED',
+  pet_good_with_children_preference: true,
+  pet_good_with_dogs_preference: true,
+  pet_good_with_cats_preference: true,
+  pet_size_preference: 'LARGE',
+  pet_sex_preference: 'FEMALE',
+  pet_social_preference: 'SOCIAL',
+  pet_trainability_preference: 'TEACHERS_PET',
+  pet_type_preference: 'CAT',
+  zipcode: '92014',
+};
+
 module.exports = {
   petDatum,
   userDatum,
@@ -295,4 +361,8 @@ module.exports = {
   shelter2Datum,
   likedPetDatum,
   multiplePetsDatum,
+  mockIdTokenInfo,
+  createUserSample,
+  updateUserVariables,
+  updateUserSample,
 };
