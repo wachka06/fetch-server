@@ -11,18 +11,16 @@ afterAll(closeDbConnection);
 jest.mock('../../utils/auth');
 
 const CREATE_USER = gql`
-  mutation createUser($auth: AuthInput! $user: UserCreateInput!){
-    createUser(
-      auth: $auth
-      user: $user){
-        token
-      }
+  mutation createUser($auth: AuthInput!, $user: UserCreateInput!) {
+    createUser(auth: $auth, user: $user) {
+      token
+    }
   }
 `;
 
 const UPDATE_USER = gql`
-  mutation updateUser($user: UserUpdateInput){
-    updateUser(user: $user){
+  mutation updateUser($user: UserUpdateInput) {
+    updateUser(user: $user) {
       email
       first_name
       id
@@ -43,7 +41,7 @@ const UPDATE_USER = gql`
       pet_trainability_preference
       pet_type_preference
       zipcode
-    }  
+    }
   }
 `;
 
@@ -51,7 +49,7 @@ const mockIdTokenInfo = {
   email: 'webapprenticeteam@gmail.com',
   name: 'Web Apprentice Team',
   picture:
-  'https://lh5.googleusercontent.com/-4Or8kbjRqT4/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nDnBdEORHOznTw4q10CRVxtJ9U96A/s96-c/photo.jpg',
+    'https://lh5.googleusercontent.com/-4Or8kbjRqT4/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nDnBdEORHOznTw4q10CRVxtJ9U96A/s96-c/photo.jpg',
   given_name: 'Web Apprentice',
   family_name: 'Team',
 };
@@ -128,11 +126,15 @@ describe('Mutation resolvers', () => {
           user: { ...createUserSample },
         },
       });
-      const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
+      const newUser = await db.user.findOne({
+        where: { email: 'webapprenticeteam@gmail.com' },
+      });
       expect(newUser).toBeDefined();
     });
     it('catches invalid  id_tokens', async () => {
-      auth.idTokenIsValid.mockImplementation(() => { throw new AuthenticationError('idToken is invalid.'); });
+      auth.idTokenIsValid.mockImplementation(() => {
+        throw new AuthenticationError('idToken is invalid.');
+      });
       const { mutate } = createTestClient(new ApolloServer(testServer()));
       const res = await mutate({
         mutation: CREATE_USER,
@@ -144,7 +146,9 @@ describe('Mutation resolvers', () => {
           user: { ...createUserSample },
         },
       });
-      const newUser = await db.user.findOne({ where: { email: 'webapprenticeteam@gmail.com' } });
+      const newUser = await db.user.findOne({
+        where: { email: 'webapprenticeteam@gmail.com' },
+      });
       expect(newUser).toBeNull();
       expect(res.errors[0].message).toMatch('idToken is invalid.');
     });
@@ -152,15 +156,24 @@ describe('Mutation resolvers', () => {
   describe('updateUser', () => {
     it('updates user with updated fields', async () => {
       const user = await db.user.create(updateUserSample);
-      const { mutate } = createTestClient(new ApolloServer(testServer(null, user.id)));
+      const { mutate } = createTestClient(
+        new ApolloServer(testServer(null, user.id))
+      );
       const res = await mutate({
         mutation: UPDATE_USER,
         variables: { user: { ...updateUserVariables } },
       });
       const updatedUser = await db.user.findByPk(user.id);
-      delete updatedUser.dataValues.createdAt;
-      delete updatedUser.dataValues.updatedAt;
-      expect(res.data.updateUser).toEqual(updatedUser.dataValues);
+      const {
+        createdAt,
+        updatedAt,
+        id,
+        longitude,
+        latitude,
+        ...updatedUserValues
+      } = updatedUser.dataValues
+      expect(res.data.updateUser).not.toEqual(user);
+      expect(updatedUserValues).toEqual(updateUserVariables);
     });
   });
 });

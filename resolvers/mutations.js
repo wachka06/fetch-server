@@ -19,7 +19,7 @@ const mutations = {
   updateUser: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     const foundUser = await db.user.findByPk(userId);
-    await foundUser.update({ ...args });
+    await foundUser.update({ ...args.user });
     await foundUser.reload();
     return { ...foundUser.dataValues };
   },
