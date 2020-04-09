@@ -4,8 +4,15 @@ const { testServer } = require('../../config/server');
 const { cleanUpDb, closeDbConnection } = require('../../utils/test/index');
 const auth = require('../../utils/auth');
 const db = require('../../models');
-const { CREATE_USER, UPDATE_USER } = require('./test-queries');
 const {
+  CREATE_USER,
+  UPDATE_USER,
+  CREATE_LIKED_PET,
+  UNLIKE_PET,
+} = require('./test-mutations');
+const {
+  shelterDatum,
+  petDatum,
   mockIdTokenInfo,
   createUserSample,
   updateUserSample,
@@ -121,7 +128,7 @@ describe('Mutation resolvers', () => {
         longitude,
         latitude,
         ...updatedUserValues
-      } = updatedUser.dataValues
+      } = updatedUser.dataValues;
       expect(res.data.updateUser).not.toEqual(user);
       expect(updatedUserValues).toEqual(updateUserVariables);
     });
@@ -140,6 +147,96 @@ describe('Mutation resolvers', () => {
       expect(res.errors[0].message).toBe(
         'Validation error: Validation max on pet_distance_preference failed'
       );
+    });
+
+    it('will not allow for an update to distance preference above the max of 30', async () => {
+      const user = await db.user.create(updateUserSample);
+      const { mutate } = createTestClient(
+        new ApolloServer(testServer(null, user.id))
+      );
+      const res = await mutate({
+        mutation: UPDATE_USER,
+        variables: {
+          user: { ...updateUserVariables, pet_distance_preference: 35 },
+        },
+      });
+      expect(res.errors[0].message).toBe(
+        'Validation error: Validation max on pet_distance_preference failed'
+      );
+    });
+  });
+
+  describe('likedPets', () => {
+
+    let userData;
+    let shelterData;
+    let petData;
+    let mutate;
+
+    beforeEach(async () => {
+
+      userData = await db.user.create(updateUserSample);
+      shelterData = await db.shelter.create(shelterDatum);
+      petData = await db.pet.create({
+        ...petDatum,
+        shelter_id: shelterData.dataValues.id,
+      });
+      mutate = createTestClient(new ApolloServer(testServer(null, userData.id)))
+        .mutate;
+
+      });
+    it('creates an instance of a liked pet with a liked_at date', async () => {
+      const likedPetInstance = await mutate({
+        mutation: CREATE_LIKED_PET,
+        variables: {
+          petId: petData.dataValues.id,
+          isLiked: true,
+        },
+      });
+
+      const { liked_at, pet, user } = likedPetInstance.data.likePet;
+
+      expect(pet.id).toMatch(petData.dataValues.id);
+      expect(user.id).toMatch(userData.dataValues.id);
+      expect(liked_at).toBeTruthy();
+    });
+    it('creates an instance of a liked pet without a liked_at date', async () => {
+      const likedPetInstance = await mutate({
+        mutation: CREATE_LIKED_PET,
+        variables: {
+          petId: petData.dataValues.id,
+        },
+      });
+
+      const { liked_at, pet, user } = likedPetInstance.data.likePet;
+
+      expect(pet.id).toMatch(petData.dataValues.id);
+      expect(user.id).toMatch(userData.dataValues.id);
+      expect(liked_at).toBe(null);
+    });
+    it('unlikes a previously liked pet without destroying the liked pet instance', async () => {
+      const likedPetInstance = await mutate({
+        mutation: CREATE_LIKED_PET,
+        variables: {
+          petId: petData.dataValues.id,
+          isLiked: true,
+        },
+      });
+      const { likePet } = likedPetInstance.data;
+
+      const dislikedPetInstance = await mutate({
+        mutation: UNLIKE_PET,
+        variables: {
+          likedPetId: likePet.id,
+        },
+      });
+      const { unlikePet } = dislikedPetInstance.data;
+
+      expect(unlikePet.id).toMatch(likePet.id);
+      expect(unlikePet.user.id).toMatch(likePet.user.id);
+      expect(unlikePet.pet.id).toMatch(likePet.pet.id);
+      expect(likePet.liked_at).toBeTruthy();
+      expect(unlikePet.liked_at).toBe(null);
     });
   });
 });

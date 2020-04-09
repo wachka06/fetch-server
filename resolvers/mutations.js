@@ -23,6 +23,32 @@ const mutations = {
     await foundUser.reload();
     return { ...foundUser.dataValues };
   },
+
+  likePet: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    let { petId, isLiked } = args;
+    isLiked = isLiked ? new Date() : null;
+    const newLikedPet = await db.liked_pet.create({
+      user_id: userId,
+      pet_id: petId,
+      liked_at: isLiked,
+    });
+    return await db.liked_pet.findOne({
+      where: { id: newLikedPet.dataValues.id },
+      include: [{ model: db.user }, { model: db.pet }],
+    });
+  },
+
+  unlikePet: async (root, args, { db, userId }) => {
+    if (!userId) throw new ForbiddenError('Not authorized for that action');
+    const { likedPetId } = args;
+    const foundLikedPet = await db.liked_pet.findByPk(likedPetId);
+    await foundLikedPet.update({ liked_at: null });
+    await foundLikedPet.reload({
+      include: [{ model: db.user }, { model: db.pet }],
+    });
+    return foundLikedPet;
+  },
 };
 
 module.exports = mutations;
