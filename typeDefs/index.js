@@ -5,59 +5,59 @@ const likedPet = require('./liked_pets');
 const shelter = require('./shelter');
 
 const root = gql`
-  enum AGE {
+  enum Age {
     YOUNG
     ADULT
     SENIOR
   }
 
-  enum DEPENDENCY {
+  enum Dependency {
     INDEPENDENT
     SOMEWHAT_DEPENDENT
     DEPENDENT
   }
 
-  enum SIZE {
+  enum Size {
     SMALL
     MEDIUM
     LARGE
   }
 
-  enum SEX {
+  enum Sex {
     MALE
     FEMALE
   }
 
-  enum STATUS {
+  enum Status {
     ADOPTED
     NOT_ADOPTED
   }
 
-  enum TYPE {
+  enum Type {
     DOG
     CAT
     NO_PREFERENCE
   }
 
-  enum EXPERIENCE {
+  enum Experience {
     AN_EXPERT
     EXPERIENCED
     A_NOVICE
   }
 
-  enum ACTIVITY {
+  enum Activity {
     A_COUCH_POTATO
     ACTIVE
     AN_ATHLETE
   }
 
-  enum SOCIAL {
+  enum Social {
     A_WALL_FLOWER
     SOCIAL
     LIFE_OF_THE_PARTY
   }
 
-  enum TRAINABILITY {
+  enum Trainability {
     CLASS_CLOWN
     ATTENTIVE_STUDENT
     TEACHERS_PET
