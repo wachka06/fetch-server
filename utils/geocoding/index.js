@@ -11,29 +11,44 @@ const locationToCoordinates = async (location) => {
     state,
     zipcode,
   } = location;
-  let url = 'https://nominatim.openstreetmap.org/search?format=json&country=usa';
+  let locationSearchURL = 'https://nominatim.openstreetmap.org/search?format=json&country=usa';
   if (street) {
-    url += `&street=${streetNumber} ${street}`;
+    locationSearchURL += `&street=${streetNumber} ${street}`;
   }
   if (city) {
-    url += `&city=${city}`;
+    locationSearchURL += `&city=${city}`;
   }
   if (state) {
-    url += `&state=${state}`;
+    locationSearchURL += `&state=${state}`;
   }
   if (zipcode) {
-    url += `&postalcode=${zipcode}`;
+    locationSearchURL += `&postalcode=${zipcode}`;
   }
-  const geoData = await axios.get(url).catch((error) => { throw error; });
+  const geoData = await axios.get(locationSearchURL).catch((error) => { throw error; });
+  if (geoData.data[0]) {
+    return {
+      latitude: geoData.data[0].lat,
+      longitude: geoData.data[0].lon,
+    };
+  }
+};
+
+const standardizeAddress = async (address) => {
+  const locationSearchURL = `https://nominatim.openstreetmap.org/search?format=json&country=usa&q=${address}`;
+  const response = await axios.get(locationSearchURL);
+  if (response.data.length < 1) {
+    return null;
+  }
+  const geoData = { ...response.data[0] };
   return {
-    latitude: geoData.data[0].lat,
-    longitude: geoData.data[0].lon,
+    latitude: parseFloat(geoData.lat),
+    longitude: parseFloat(geoData.lon),
   };
 };
 
 const coordinatesToLocation = async (latitude, longitude) => {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-  const geoData = await axios.get(url);
+  const reverseLocationURL = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  const geoData = await axios.get(reverseLocationURL).catch((error) => { throw error; });
   return {
     streetNumber: geoData.data.address.house_number,
     street: geoData.data.address.road,
@@ -80,4 +95,5 @@ module.exports = {
   calculateLongitudeRange,
   locationToCoordinates,
   coordinatesToLocation,
+  standardizeAddress,
 };
