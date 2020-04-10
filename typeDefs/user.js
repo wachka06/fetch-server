@@ -8,19 +8,19 @@ const user = gql`
     last_name: String!
     latitude: Float
     longitude: Float
-    pet_activity_preference: ACTIVITY
-    pet_age_preference: AGE
-    pet_dependency_preference: DEPENDENCY
+    pet_activity_preference: Activity
+    pet_age_preference: Age
+    pet_dependency_preference: Dependency
     pet_distance_preference: Int
-    pet_experience_level: EXPERIENCE
+    pet_experience_level: Experience
     pet_good_with_children_preference: Boolean
     pet_good_with_dogs_preference: Boolean
     pet_good_with_cats_preference: Boolean
-    pet_size_preference: SIZE
-    pet_sex_preference: SEX
-    pet_social_preference: SOCIAL
-    pet_trainability_preference: TRAINABILITY
-    pet_type_preference: TYPE
+    pet_size_preference: Size
+    pet_sex_preference: Sex
+    pet_social_preference: Social
+    pet_trainability_preference: Trainability
+    pet_type_preference: Type
     zipcode: String!
   }
 
@@ -30,19 +30,19 @@ const user = gql`
   }
 
   input UserCreateInput {
-    pet_activity_preference: ACTIVITY
-    pet_age_preference: AGE
-    pet_dependency_preference: DEPENDENCY
+    pet_activity_preference: Activity
+    pet_age_preference: Age
+    pet_dependency_preference: Dependency
     pet_distance_preference: Int
-    pet_experience_level: EXPERIENCE
+    pet_experience_level: Experience
     pet_good_with_children_preference: Boolean
     pet_good_with_dogs_preference: Boolean
     pet_good_with_cats_preference: Boolean
-    pet_size_preference: SIZE
-    pet_sex_preference: SEX
-    pet_social_preference: SOCIAL
-    pet_trainability_preference: TRAINABILITY
-    pet_type_preference: TYPE
+    pet_size_preference: Size
+    pet_sex_preference: Sex
+    pet_social_preference: Social
+    pet_trainability_preference: Trainability
+    pet_type_preference: Type
     zipcode: String!
   }
 
@@ -50,19 +50,19 @@ const user = gql`
     email: String
     first_name: String
     last_name: String
-    pet_activity_preference: ACTIVITY
-    pet_age_preference: AGE
-    pet_dependency_preference: DEPENDENCY
+    pet_activity_preference: Activity
+    pet_age_preference: Age
+    pet_dependency_preference: Dependency
     pet_distance_preference: Int
-    pet_experience_level: EXPERIENCE
+    pet_experience_level: Experience
     pet_good_with_children_preference: Boolean
     pet_good_with_dogs_preference: Boolean
     pet_good_with_cats_preference: Boolean
-    pet_size_preference: SIZE
-    pet_sex_preference: SEX
-    pet_social_preference: SOCIAL
-    pet_trainability_preference: TRAINABILITY
-    pet_type_preference: TYPE
+    pet_size_preference: Size
+    pet_sex_preference: Sex
+    pet_social_preference: Social
+    pet_trainability_preference: Trainability
+    pet_type_preference: Type
     zipcode: String
   }
 
