@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 require('dotenv').config();
 const { gql, ApolloServer } = require('apollo-server');
 const { createTestClient } = require('apollo-server-testing');
