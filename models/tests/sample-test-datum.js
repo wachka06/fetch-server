@@ -16,6 +16,8 @@ const shelterDatum = {
   city: 'Boston',
   state: 'MA',
   zipcode: '02144',
+  latitude: "41.8301308",
+  longitude: "-71.3252682",
   hours: `{
       "monday": "9-5",
       "tuesday": "9-5",
@@ -37,6 +39,8 @@ const shelter2Datum = {
   city: 'Bellevue',
   state: 'WA',
   zipcode: '98115',
+  latitude: "41.8301308",
+  longitude: "-71.3252682",
   hours: `{
       "monday": "6 - 2",
         "tuesday": "6 - 2",

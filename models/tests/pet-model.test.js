@@ -74,15 +74,6 @@ describe('Pet Model', () => {
           `null value in column \"${valueToNull}\" violates not-null constraint`
         );
       });
-      it('should require a photo to be present', async () => {
-        const valueToNull = 'photos';
-        const shelter = await db.shelter.create(shelterDatum);
-        await expect(
-          petCreateWithNullValue(shelter, valueToNull)
-        ).rejects.toThrow(
-          `null value in column \"${valueToNull}\" violates not-null constraint`
-        );
-      });
       it('should require a primary color to be present', async () => {
         const valueToNull = 'primary_color';
         const shelter = await db.shelter.create(shelterDatum);
