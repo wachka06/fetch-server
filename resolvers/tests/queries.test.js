@@ -181,14 +181,14 @@ describe('Query resolvers', () => {
       const { query } = await getQuery();
       const currentUser = await query({ query: GET_CURRENT_USER });
       const randomPet = await query({ query: GET_RANDOM_PET });
-      expect(randomPet.data.randomPet.species_name).toBe(
-        currentUser.data.currentUser.pet_type_preference
+      expect(currentUser.data.currentUser.pet_type_preference).toContain(
+        randomPet.data.randomPet.species_name
       );
-      expect(randomPet.data.randomPet.age).toBe(
-        currentUser.data.currentUser.pet_age_preference
+      expect(currentUser.data.currentUser.pet_age_preference).toContain(
+        randomPet.data.randomPet.age
       );
-      expect(randomPet.data.randomPet.size).toBe(
-        currentUser.data.currentUser.pet_size_preference
+      expect(currentUser.data.currentUser.pet_size_preference).toContain(
+        randomPet.data.randomPet.size
       );
     });
     it('Should filter out liked pets from possible responses', async () => {
@@ -274,7 +274,10 @@ describe('Query resolvers', () => {
         pet_id: samplePet.id,
         liked_at: new Date(),
       });
-      const res = await query({ query: GET_LIKED_PET, variables: { id: sampleLikedPet.id } });
+      const res = await query({
+        query: GET_LIKED_PET,
+        variables: { id: sampleLikedPet.id },
+      });
       expect(res.data.likedPet.id).toMatch(sampleLikedPet.id);
       expect(res.data.likedPet.user.email).toMatch(sampleUser.email);
       expect(res.data.likedPet.pet.id).toMatch(samplePet.id);

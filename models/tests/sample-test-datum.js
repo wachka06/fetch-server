@@ -4,9 +4,9 @@ const userDatum = {
   last_name: 'Toledo',
   zipcode: '98104',
   pet_distance_preference: 10,
-  pet_age_preference: 'YOUNG',
-  pet_size_preference: 'SMALL',
-  pet_type_preference: 'DOG',
+  pet_age_preference: ['YOUNG'],
+  pet_size_preference: ['SMALL'],
+  pet_type_preference: ['DOG'],
 };
 
 const shelterDatum = {
@@ -16,8 +16,8 @@ const shelterDatum = {
   city: 'Boston',
   state: 'MA',
   zipcode: '02144',
-  latitude: "41.8301308",
-  longitude: "-71.3252682",
+  latitude: '41.8301308',
+  longitude: '-71.3252682',
   hours: `{
       "monday": "9-5",
       "tuesday": "9-5",
@@ -39,8 +39,8 @@ const shelter2Datum = {
   city: 'Bellevue',
   state: 'WA',
   zipcode: '98115',
-  latitude: "41.8301308",
-  longitude: "-71.3252682",
+  latitude: '41.8301308',
+  longitude: '-71.3252682',
   hours: `{
       "monday": "6 - 2",
         "tuesday": "6 - 2",
@@ -92,8 +92,7 @@ const petDatum2 = {
   age: 'ADULT',
   coat: 'long',
   declawed: false,
-  description:
-    'Friendly',
+  description: 'Friendly',
   good_with_children: true,
   good_with_dogs: true,
   good_with_cats: false,
