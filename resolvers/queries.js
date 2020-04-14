@@ -1,5 +1,9 @@
 const { ForbiddenError, ApolloError } = require('apollo-server');
 const createPetFilter = require('../utils/randomPets/createPetFilter');
+const {
+  filterByDistance,
+  appendDistance,
+} = require('../utils/randomPets/petDistanceUtils');
 
 const queries = {
   currentUser: async (root, args, { db, userId }) => {
@@ -34,7 +38,6 @@ const queries = {
       throw new ForbiddenError(
         'Sorry, you must be logged in to perform this action'
       );
-
     const petsQueue = new Set(args.queuedPets);
     const userProfile = await db.user.findByPk(userId);
 
@@ -47,18 +50,30 @@ const queries = {
     const petFilter = await createPetFilter(userProfile);
 
     await getPetsByFilter(petFilter)
-      .filter((unfilteredPet) => !petsQueue.has(unfilteredPet.id))
-      .filter((matchedResult) => matchedResult.likedBy.id !== userProfile.id)
+      .filter(
+        (petToFilterOnPetQueue) => !petsQueue.has(petToFilterOnPetQueue.id)
+      )
+      .filter(
+        (petToFilterOnLikedBy) =>
+          petToFilterOnLikedBy.likedBy.id !== userProfile.id
+      )
+      .filter((petToFilterByDistance) =>
+        filterByDistance(userProfile, petToFilterByDistance)
+      )
       .then(
-        (filteredResults) =>
+        (poolOfFilteredPets) =>
           (randomPet =
-            filteredResults[Math.floor(Math.random() * filteredResults.length)])
+            poolOfFilteredPets[
+              Math.floor(Math.random() * poolOfFilteredPets.length)
+            ])
       );
 
     if (!randomPet)
       throw new ApolloError(
         'There are no remaining pets that match the current user preferences'
       );
+
+    randomPet.distance_to_user = appendDistance(userProfile, randomPet);
 
     return randomPet;
   },
