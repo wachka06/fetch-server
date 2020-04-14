@@ -19,6 +19,8 @@ const createPetFilter = (userProfile) => {
     filterPair[1] ? (filter[filterPair[0]] = filterPair[1]) : null;
   });
 
+  if (filter.species_name && filter.species_name.includes('NO_PREFERENCE')) delete filter.species_name;
+
   return filter;
 };
 

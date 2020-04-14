@@ -36,13 +36,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       pet_size_preference: {
-        type: DataTypes.ENUM(PetPreferences.PET_SIZE),
+        type: DataTypes.ARRAY(DataTypes.STRING),
       },
       pet_age_preference: {
-        type: DataTypes.ENUM(PetPreferences.PET_AGE),
+        type: DataTypes.ARRAY(DataTypes.STRING),
       },
       pet_type_preference: {
-        type: DataTypes.ENUM(PetPreferences.PET_TYPE),
+        type: DataTypes.ARRAY(DataTypes.STRING),
       },
       pet_distance_preference: {
         allowNull: false,
@@ -52,14 +52,12 @@ module.exports = (sequelize, DataTypes) => {
           max: 30,
         },
       },
-      pet_dependency_preference: DataTypes.ENUM(PetPreferences.PET_DEPENDENCY),
-      pet_activity_preference: DataTypes.ENUM(PetPreferences.PET_ACTIVITY),
-      pet_trainability_preference: DataTypes.ENUM(
-        PetPreferences.PET_TRAINABILITY
-      ),
-      pet_social_preference: DataTypes.ENUM(PetPreferences.PET_SOCIABILITY),
+      pet_dependency_preference: DataTypes.ARRAY(DataTypes.STRING),
+      pet_activity_preference: DataTypes.ARRAY(DataTypes.STRING),
+      pet_trainability_preference: DataTypes.ARRAY(DataTypes.STRING),
+      pet_social_preference: DataTypes.ARRAY(DataTypes.STRING),
       pet_sex_preference: {
-        type: DataTypes.ENUM(PetPreferences.PET_SEX),
+        type: DataTypes.ARRAY(DataTypes.STRING),
       },
       pet_experience_level: {
         type: DataTypes.ENUM(PetPreferences.PET_EXPERIENCE_LEVEL),
