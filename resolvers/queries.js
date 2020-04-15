@@ -1,4 +1,5 @@
 const { ForbiddenError, ApolloError } = require('apollo-server');
+const { Op } = require('sequelize');
 const createPetFilter = require('../utils/randomPets/createPetFilter');
 const userDistanceToPet = require('../utils/randomPets/petDistanceUtils');
 const { calculateDistance } = require('../utils/geocoding');
@@ -29,7 +30,7 @@ const queries = {
   likedPet: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     const userLikedpet = await db.liked_pet.findOne({
-      where: { id: args.id, user_id: userId },
+      where: { id: args.id, user_id: userId, [Op.not]: [{ liked_at: null }] },
       include: [{ model: db.user }, { model: db.pet, include: [{ model: db.shelter }] }],
     });
     const userPosition = { latitude: userLikedpet.user.latitude, longitude: userLikedpet.user.longitude };
@@ -88,8 +89,8 @@ const queries = {
   },
   likedPets: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
-    let likedPets = await db.liked_pet.findAll({
-      where: { user_id: userId },
+    const likedPets = await db.liked_pet.findAll({
+      where: { user_id: userId, [Op.not]: [{ liked_at: null }] },
       include: [{ model: db.user }, { model: db.pet, include: [{ model: db.shelter }] }],
     });
     const likedPetsWithDistance = likedPets.map((likedPet) => {
