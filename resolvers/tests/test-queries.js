@@ -74,6 +74,7 @@ const GET_RANDOM_PET = gql`
         street_number
         zipcode
       }
+      distance_to_user
     }
   }
 `;

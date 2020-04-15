@@ -1,5 +1,6 @@
 const { ForbiddenError, ApolloError } = require('apollo-server');
 const createPetFilter = require('../utils/randomPets/createPetFilter');
+const userDistanceToPet = require('../utils/randomPets/petDistanceUtils');
 
 const queries = {
   currentUser: async (root, args, { db, userId }) => {
@@ -9,10 +10,13 @@ const queries = {
   },
   pet: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
-    return db.pet.findOne({
+    const userProfile = await db.user.findByPk(userId);
+    const pet = await db.pet.findOne({
       where: { id: args.id },
       include: [{ model: db.shelter }, { model: db.user, as: 'likedBy' }],
     });
+    pet.distance_to_user = userDistanceToPet(userProfile, pet);
+    return pet;
   },
   shelter: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
@@ -34,9 +38,8 @@ const queries = {
       throw new ForbiddenError(
         'Sorry, you must be logged in to perform this action'
       );
-
-    const petsQueue = new Set(args.queuedPets);
     const userProfile = await db.user.findByPk(userId);
+    const petsQueue = new Set(args.queuedPets);
 
     const getPetsByFilter = (filter) =>
       db.pet.findAll({
@@ -47,18 +50,32 @@ const queries = {
     const petFilter = await createPetFilter(userProfile);
 
     await getPetsByFilter(petFilter)
-      .filter((unfilteredPet) => !petsQueue.has(unfilteredPet.id))
-      .filter((matchedResult) => matchedResult.likedBy.id !== userProfile.id)
+      .filter(
+        (petToFilterOnPetQueue) => !petsQueue.has(petToFilterOnPetQueue.id)
+      )
+      .filter(
+        (petToFilterOnLikedBy) =>
+          petToFilterOnLikedBy.likedBy.id !== userProfile.id
+      )
+      .filter(
+        (petToFilterByDistance) =>
+          userDistanceToPet(userProfile, petToFilterByDistance) <=
+          userProfile.pet_distance_preference
+      )
       .then(
-        (filteredResults) =>
+        (poolOfFilteredPets) =>
           (randomPet =
-            filteredResults[Math.floor(Math.random() * filteredResults.length)])
+            poolOfFilteredPets[
+              Math.floor(Math.random() * poolOfFilteredPets.length)
+            ])
       );
 
     if (!randomPet)
       throw new ApolloError(
         'There are no remaining pets that match the current user preferences'
       );
+
+    randomPet.distance_to_user = userDistanceToPet(userProfile, randomPet);
 
     return randomPet;
   },

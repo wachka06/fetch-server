@@ -34,6 +34,7 @@ const pet = gql`
     status: Status!
     tertiary_color: String
     shelter: Shelter!
+    distance_to_user: Float
   }
 
   extend type Query {

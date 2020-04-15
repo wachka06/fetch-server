@@ -257,6 +257,37 @@ describe('Query resolvers', () => {
         `There are no remaining pets that match the current user preferences`
       );
     });
+    it('Should return only pets within the distance preference', async () => {
+      localUser = await db.user.create(userDatum);
+      const token = encodedJWT(localUser.dataValues.id);
+      const { query } = createTestClient(new ApolloServer(testServer(token)));
+      const initialUser = (await query({ query: GET_CURRENT_USER })).data
+        .currentUser;
+      const initialPet = (await query({ query: GET_RANDOM_PET })).data
+        .randomPet;
+
+      expect(initialPet.distance_to_user).toBeLessThanOrEqual(
+        initialUser.pet_distance_preference
+      );
+
+      await db.user.update(
+        { pet_distance_preference: 0 },
+        { where: { id: initialUser.id } }
+      );
+      const updatedUser = (await query({ query: GET_CURRENT_USER })).data
+        .currentUser;
+
+      expect(updatedUser.id).toBe(initialUser.id);
+      expect(updatedUser.pet_distance_preference).not.toBe(
+        initialUser.pet_distance_preference
+      );
+
+      const updatedPet = await query({ query: GET_RANDOM_PET });
+
+      expect(updatedPet.errors[0].message).toBe(
+        'There are no remaining pets that match the current user preferences'
+      );
+    });
   });
 
   describe('LikedPet Queries', () => {
