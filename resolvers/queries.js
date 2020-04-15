@@ -10,10 +10,13 @@ const queries = {
   },
   pet: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
-    return db.pet.findOne({
+    const userProfile = await db.user.findByPk(userId);
+    const pet = await db.pet.findOne({
       where: { id: args.id },
       include: [{ model: db.shelter }, { model: db.user, as: 'likedBy' }],
     });
+    pet.distance_to_user = userDistanceToPet(userProfile, pet);
+    return pet;
   },
   shelter: async (root, args, { db, userId }) => {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
@@ -35,8 +38,8 @@ const queries = {
       throw new ForbiddenError(
         'Sorry, you must be logged in to perform this action'
       );
-    const petsQueue = new Set(args.queuedPets);
     const userProfile = await db.user.findByPk(userId);
+    const petsQueue = new Set(args.queuedPets);
 
     const getPetsByFilter = (filter) =>
       db.pet.findAll({
