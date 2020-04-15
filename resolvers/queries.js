@@ -1,9 +1,6 @@
 const { ForbiddenError, ApolloError } = require('apollo-server');
 const createPetFilter = require('../utils/randomPets/createPetFilter');
-const {
-  filterByDistance,
-  userDistanceToPet,
-} = require('../utils/randomPets/petDistanceUtils');
+const userDistanceToPet = require('../utils/randomPets/petDistanceUtils');
 
 const queries = {
   currentUser: async (root, args, { db, userId }) => {
@@ -57,8 +54,10 @@ const queries = {
         (petToFilterOnLikedBy) =>
           petToFilterOnLikedBy.likedBy.id !== userProfile.id
       )
-      .filter((petToFilterByDistance) =>
-        filterByDistance(userProfile, petToFilterByDistance)
+      .filter(
+        (petToFilterByDistance) =>
+          userDistanceToPet(userProfile, petToFilterByDistance) <=
+          userProfile.pet_distance_preference
       )
       .then(
         (poolOfFilteredPets) =>
