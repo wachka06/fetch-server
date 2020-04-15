@@ -19,7 +19,7 @@ const filterByDistance = (user, pet) => {
   return distanceToPet <= user.dataValues.pet_distance_preference;
 };
 
-const appendDistance = (user, pet) => {
+const userDistanceToPet = (user, pet) => {
   const userDistanceParams = () => {
     const { latitude, longitude } = user.dataValues;
     return { latitude, longitude };
@@ -35,5 +35,5 @@ const appendDistance = (user, pet) => {
 
 module.exports = {
   filterByDistance,
-  appendDistance,
+  userDistanceToPet,
 };

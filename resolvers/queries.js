@@ -2,7 +2,7 @@ const { ForbiddenError, ApolloError } = require('apollo-server');
 const createPetFilter = require('../utils/randomPets/createPetFilter');
 const {
   filterByDistance,
-  appendDistance,
+  userDistanceToPet,
 } = require('../utils/randomPets/petDistanceUtils');
 
 const queries = {
@@ -73,7 +73,7 @@ const queries = {
         'There are no remaining pets that match the current user preferences'
       );
 
-    randomPet.distance_to_user = appendDistance(userProfile, randomPet);
+    randomPet.distance_to_user = userDistanceToPet(userProfile, randomPet);
 
     return randomPet;
   },
