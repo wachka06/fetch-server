@@ -75,6 +75,13 @@ module.exports = (sequelize, DataTypes) => {
           newUser.latitude = latitude;
           newUser.longitude = longitude;
         },
+        beforeUpdate: async (updatedUser) => {
+          const { latitude, longitude } = await locationToCoordinates({
+            zipcode: updatedUser.zipcode,
+          });
+          updatedUser.latitude = latitude;
+          updatedUser.longitude = longitude;
+        },
       },
       pet_age_preference: {
         type: DataTypes.ENUM(PetPreferences.PET_AGE),
