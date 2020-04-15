@@ -8,6 +8,7 @@ const likedPet = gql`
     liked_at: Date
     user: User!
     pet: Pet!
+    distance: Float
   }
 
   extend type Query {
