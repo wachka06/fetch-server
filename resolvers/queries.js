@@ -44,11 +44,8 @@ const queries = {
       latitude: userLikedpet.pet.shelter.latitude,
       longitude: userLikedpet.pet.shelter.longitude,
     };
-    const distance = calculateDistance(userPosition, petPosition);
-    return {
-      ...userLikedpet.dataValues,
-      distance,
-    };
+    userLikedpet.pet.distance_to_user = calculateDistance(userPosition, petPosition);
+    return userLikedpet;
   },
   randomPet: async (root, args, { db, userId }) => {
     if (!userId)
@@ -108,16 +105,9 @@ const queries = {
       ],
     });
     const likedPetsWithDistance = likedPets.map((likedPet) => {
-      const userPosition = {
-        latitude: likedPet.user.latitude,
-        longitude: likedPet.user.longitude,
-      };
-      const petPosition = {
-        latitude: likedPet.pet.shelter.latitude,
-        longitude: likedPet.pet.shelter.longitude,
-      };
-      const distance = calculateDistance(userPosition, petPosition);
-      likedPet.distance = distance;
+      const userPosition = { latitude: likedPet.user.latitude, longitude: likedPet.user.longitude };
+      const petPosition = { latitude: likedPet.pet.shelter.latitude, longitude: likedPet.pet.shelter.longitude };
+      likedPet.pet.distance_to_user = calculateDistance(userPosition, petPosition);
       return likedPet;
     });
     return likedPetsWithDistance;
