@@ -4,7 +4,7 @@ module.exports = {
       `SELECT id FROM pets;`
     );
     const user = await queryInterface.sequelize.query(
-      `SELECT id FROM users WHERE email = 'webapprenticeteam@gmail.com';`
+      `SELECT * FROM users WHERE email='webapprenticeteam;`
     );
     const likedPetsToInsert = pets[0].map((pet) => {
       return {
