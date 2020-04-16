@@ -31,10 +31,19 @@ const queries = {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     const userLikedpet = await db.liked_pet.findOne({
       where: { id: args.id, user_id: userId, [Op.not]: [{ liked_at: null }] },
-      include: [{ model: db.user }, { model: db.pet, include: [{ model: db.shelter }] }],
+      include: [
+        { model: db.user },
+        { model: db.pet, include: [{ model: db.shelter }] },
+      ],
     });
-    const userPosition = { latitude: userLikedpet.user.latitude, longitude: userLikedpet.user.longitude };
-    const petPosition = { latitude: userLikedpet.pet.shelter.latitude, longitude: userLikedpet.pet.shelter.longitude };
+    const userPosition = {
+      latitude: userLikedpet.user.latitude,
+      longitude: userLikedpet.user.longitude,
+    };
+    const petPosition = {
+      latitude: userLikedpet.pet.shelter.latitude,
+      longitude: userLikedpet.pet.shelter.longitude,
+    };
     const distance = calculateDistance(userPosition, petPosition);
     return {
       ...userLikedpet.dataValues,
@@ -61,10 +70,12 @@ const queries = {
       .filter(
         (petToFilterOnPetQueue) => !petsQueue.has(petToFilterOnPetQueue.id)
       )
-      .filter(
-        (petToFilterOnLikedBy) =>
-          petToFilterOnLikedBy.likedBy.id !== userProfile.id
-      )
+      .filter((petToFilterOnLikedBy) => {
+        if (petToFilterOnLikedBy.likedBy.length === 0) return true;
+        return petToFilterOnLikedBy.likedBy.every(
+          (userWhoLikedPet) => userWhoLikedPet.id !== userProfile.id
+        );
+      })
       .filter(
         (petToFilterByDistance) =>
           userDistanceToPet(userProfile, petToFilterByDistance) <=
@@ -91,16 +102,24 @@ const queries = {
     if (!userId) throw new ForbiddenError('Not authorized for that action');
     const likedPets = await db.liked_pet.findAll({
       where: { user_id: userId, [Op.not]: [{ liked_at: null }] },
-      include: [{ model: db.user }, { model: db.pet, include: [{ model: db.shelter }] }],
+      include: [
+        { model: db.user },
+        { model: db.pet, include: [{ model: db.shelter }] },
+      ],
     });
     const likedPetsWithDistance = likedPets.map((likedPet) => {
-      const userPosition = { latitude: likedPet.user.latitude, longitude: likedPet.user.longitude };
-      const petPosition = { latitude: likedPet.pet.shelter.latitude, longitude: likedPet.pet.shelter.longitude };
+      const userPosition = {
+        latitude: likedPet.user.latitude,
+        longitude: likedPet.user.longitude,
+      };
+      const petPosition = {
+        latitude: likedPet.pet.shelter.latitude,
+        longitude: likedPet.pet.shelter.longitude,
+      };
       const distance = calculateDistance(userPosition, petPosition);
       likedPet.distance = distance;
       return likedPet;
-      }
-    );
+    });
     return likedPetsWithDistance;
   },
 };
