@@ -1,9 +1,7 @@
 const petfinder = require('../../services/petfinderApi');
 const enums = require('../../sharedConstants/petPreferenceEnumsV2');
 
-const NUM_OF_OPTIONS = 3;
-
-const randomOption = (options) => options[Math.floor(Math.random() * NUM_OF_OPTIONS)];
+const randomOption = (options) => options[Math.floor(Math.random() * options.length)];
 
 const determineAge = (age) => {
   switch (age) {
@@ -83,7 +81,7 @@ const formatPet = (pet) => ({
   spayed_or_neutered: pet.attributes.spayed_neutered,
   special_needs: pet.attributes.special_needs,
   species_name: determineType(pet.species),
-  status: enums.PET_STATUS[0],
+  status: randomOption([enums.PET_STATUS[0], enums.PET_STATUS[1], enums.PET_STATUS[1]]),
   tertiary_color: pet.colors.tertiary,
   updatedAt: new Date(),
 });
