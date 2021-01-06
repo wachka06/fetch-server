@@ -30,7 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-server": "^2.11.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.23",
     "google-auth-library": "^5.10.1",
     "graphql": "^14.6.0",
